@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{7A1224A0-F22D-34FF-DE0A-A058FAFFD90C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "calculator", "calculator", "{CEB685CB-A967-08C6-70DA-771A958843BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "calc", "Desktop\calculator\calc\calc.csproj", "{F7D0B34B-6DC4-3ECF-DCB3-8FA3A7F987DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7D0B34B-6DC4-3ECF-DCB3-8FA3A7F987DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7D0B34B-6DC4-3ECF-DCB3-8FA3A7F987DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7D0B34B-6DC4-3ECF-DCB3-8FA3A7F987DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7D0B34B-6DC4-3ECF-DCB3-8FA3A7F987DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CEB685CB-A967-08C6-70DA-771A958843BF} = {7A1224A0-F22D-34FF-DE0A-A058FAFFD90C}
+		{F7D0B34B-6DC4-3ECF-DCB3-8FA3A7F987DA} = {CEB685CB-A967-08C6-70DA-771A958843BF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B41AE717-A091-46E8-ABFF-B78229AB71C6}
+	EndGlobalSection
+EndGlobal

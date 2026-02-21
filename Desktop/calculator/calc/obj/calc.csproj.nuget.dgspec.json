@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/elizaveta/Desktop/calculator/calc/calc.csproj": {}
+    "/Users/elizaveta/Desktop/public-safety/Desktop/calculator/calc/calc.csproj": {}
   },
   "projects": {
-    "/Users/elizaveta/Desktop/calculator/calc/calc.csproj": {
+    "/Users/elizaveta/Desktop/public-safety/Desktop/calculator/calc/calc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/elizaveta/Desktop/calculator/calc/calc.csproj",
+        "projectUniqueName": "/Users/elizaveta/Desktop/public-safety/Desktop/calculator/calc/calc.csproj",
         "projectName": "calc",
-        "projectPath": "/Users/elizaveta/Desktop/calculator/calc/calc.csproj",
+        "projectPath": "/Users/elizaveta/Desktop/public-safety/Desktop/calculator/calc/calc.csproj",
         "packagesPath": "/Users/elizaveta/.nuget/packages/",
-        "outputPath": "/Users/elizaveta/Desktop/calculator/calc/obj/",
+        "outputPath": "/Users/elizaveta/Desktop/public-safety/Desktop/calculator/calc/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/elizaveta/.nuget/NuGet/NuGet.Config"
