@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приложение "Аркадий-паровозов"</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #E2D797;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            max-width: 400px;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 3px solid #721E1E;
+            text-align: center;
+            position: relative;
+        }
+
+        .app-title {
+            color: #721E1E;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            text-shadow: 3px 3px 0 #E2D797;
+        }
+
+        .subtitle {
+            color: #721E1E;
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: white;
+            max-width: 350px;
+            width: 90%;
+            padding: 30px 25px;
+            border-radius: 30px;
+            border: 3px solid #721E1E;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: popupAppear 0.3s ease;
+        }
+
+        @keyframes popupAppear {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #721E1E;
+        }
+
+        .popup-title {
+            color: #721E1E;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .popup-text {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .popup-small {
+            color: #721E1E;
+            font-size: 12px;
+            margin-bottom: 25px;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .popup-btn {
+            flex: 1;
+            padding: 14px 10px;
+            border: none;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            border: 2px solid #721E1E;
+        }
+
+        .popup-btn-confirm {
+            background-color: #721E1E;
+            color: #E2D797;
+            box-shadow: 0 4px 0 #4a1313;
+        }
+
+        .popup-btn-confirm:hover {
+            background-color: #8f2626;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 0 #4a1313;
+        }
+
+        .popup-btn-confirm:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #4a1313;
+        }
+
+        .popup-btn-cancel {
+            background-color: #E2D797;
+            color: #721E1E;
+            box-shadow: 0 4px 0 #b8a76b;
+        }
+
+        .popup-btn-cancel:hover {
+            background-color: #f0e5b0;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 0 #b8a76b;
+        }
+
+        .popup-btn-cancel:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #b8a76b;
+        }
+
+        .info-text {
+            margin-top: 30px;
+            color: #721E1E;
+            font-size: 14px;
+            border-top: 2px dashed #E2D797;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="subtitle">Настройка безопасности</div>
+                
+        <button onclick="startPermissions()" class="btn btn-primary" style="margin-bottom: 15px;">Начать настройку</button>
+        
+        <div class="info-text">
+            Для работы приложения нужны разрешения
+        </div>
+    </div>
+
+    <div id="overlay" class="overlay">
+        <div id="popup1" class="popup" style="display: none;">
+            <div class="popup-title">Доступ к геопозиции</div>
+            <div class="popup-text">Приложению нужен доступ к вашему местоположению</div>
+            <div class="popup-small">обязательно подтверждение</div>
+            <div class="popup-buttons">
+                <button onclick="handlePermission(true, 1)" class="popup-btn popup-btn-confirm">Подтвердить</button>
+                <button onclick="handlePermission(false, 1)" class="popup-btn popup-btn-cancel">Отмена</button>
+            </div>
+        </div>
+
+        <div id="popup2" class="popup" style="display: none;">
+            <div class="popup-title">Доступ к уведомлениям</div>
+            <div class="popup-text">Разрешите присылать важные уведомления</div>
+            <div class="popup-small">обязательно подтверждение</div>
+            <div class="popup-buttons">
+                <button onclick="handlePermission(true, 2)" class="popup-btn popup-btn-confirm">Подтвердить</button>
+                <button onclick="handlePermission(false, 2)" class="popup-btn popup-btn-cancel">Отмена</button>
+            </div>
+        </div>
+
+        <div id="popup3" class="popup" style="display: none;">
+            <div class="popup-title">Доступ к контактам</div>
+            <div class="popup-text">Приложению нужен доступ к вашим контактам</div>
+            <div class="popup-small">обязательно подтверждение</div>
+            <div class="popup-buttons">
+                <button onclick="location.href='instra.html'" onclick="handlePermission(true, 3)" class="popup-btn popup-btn-confirm">Подтвердить</button>
+                <button onclick="handlePermission(false, 3)" class="popup-btn popup-btn-cancel">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPopup = 1;
+        
+        function startPermissions() {
+            document.getElementById('overlay').style.display = 'flex';
+            showPopup(1);
+        }
+        
+        function showPopup(number) {
+            document.getElementById('popup1').style.display = 'none';
+            document.getElementById('popup2').style.display = 'none';
+            document.getElementById('popup3').style.display = 'none';
+            
+            document.getElementById('popup' + number).style.display = 'block';
+            currentPopup = number;
+        }
+        
+        function handlePermission(confirmed, popupNumber) {
+            if (!confirmed) {
+                window.location.href = 'register.html';
+                return;
+            }
+            
+            if (popupNumber < 3) {
+                showPopup(popupNumber + 1);
+            } else {
+                document.getElementById('overlay').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

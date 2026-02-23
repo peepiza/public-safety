@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приложение "Аркадий-паровозов"</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #E2D797;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+        }
+
+        .iphone-frame {
+            background-color: #111;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin: 0 auto;
+            max-width: 380px;
+            border: 3px solid #721E1E;
+        }
+
+        .iphone-screen {
+            background-color: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            aspect-ratio: 9/19;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig');
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .top-left-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        .burger-menu {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            z-index: 20;
+        }
+
+        .burger-menu:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .burger-menu.active {
+            background-color: #8f2626;
+            transform: scale(0.95);
+        }
+
+        .burger-line {
+            width: 20px;
+            height: 3px;
+            background-color: #E2D797;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .burger-menu.active .burger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .burger-menu.active .burger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active .burger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .top-right-icons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #E2D797;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .bottom-right-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #E2D797;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-right-icon:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .route-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-top: 3px solid #721E1E;
+            border-radius: 30px 30px 0 0;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 15;
+            box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .route-panel.active {
+            transform: translateY(0);
+        }
+
+        .route-title {
+            color: #721E1E;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .route-input-group {
+            margin-bottom: 15px;
+        }
+
+        .route-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #721E1E;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .route-label span {
+            font-size: 20px;
+        }
+
+        .route-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #E2D797;
+            border-radius: 60px;
+            font-size: 16px;
+            outline: none;
+            background-color: #F5F0E0;
+            transition: border-color 0.2s;
+        }
+
+        .route-input:focus {
+            border-color: #721E1E;
+        }
+
+        .route-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .route-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .route-btn-build {
+            background-color: #721E1E;
+            color: #E2D797;
+            border: 2px solid #721E1E;
+        }
+
+        .route-btn-build:hover {
+            background-color: #8f2626;
+        }
+
+        .route-btn-cancel {
+            background-color: #E2D797;
+            color: #721E1E;
+            border: 2px solid #721E1E;
+        }
+
+        .route-btn-cancel:hover {
+            background-color: #f0e5b0;
+        }
+
+        .info-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 3px solid #721E1E;
+            max-width: 250px;
+            text-align: center;
+            z-index: 30;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            animation: infoAppear 0.3s ease;
+        }
+
+        @keyframes infoAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .info-card p {
+            color: #721E1E;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .close-info {
+            background-color: #721E1E;
+            color: #E2D797;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="iphone-frame">
+            <div class="iphone-screen" id="mapScreen">
+                <div class="map-overlay"></div>
+
+                <div class="top-left-icons">
+                    <div class="burger-menu" id="burgerMenu" onclick="toggleRoutePanel()">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </div>
+                </div>
+
+                <div class="top-right-icons">
+                    <div class="icon-btn" id="friendIcon">😼</div>
+                </div>
+
+                <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='settings.html'">⚙️</div>
+
+                <div class="route-panel" id="routePanel">
+                    <div class="route-title">Построить маршрут</div>
+                    
+                    <div class="route-input-group">
+                        <div class="route-label">
+                            <span>Точка А (начало)</span>
+                        </div>
+                        <input type="text" class="route-input" id="pointA" placeholder="например: Тверская ул., 7">
+                    </div>
+
+                    <div class="route-input-group">
+                        <div class="route-label">
+                            <span>Точка Б (конец)</span>
+                        </div>
+                        <input type="text" class="route-input" id="pointB" placeholder="например: Красная площадь">
+                    </div>
+
+                    <div class="route-buttons">
+                        <button class="route-btn route-btn-build" onclick="buildRoute()">Построить</button>
+                        <button class="route-btn route-btn-cancel" onclick="toggleRoutePanel()">Отмена</button>
+                    </div>
+                </div>
+
+                <div id="infoContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleRoutePanel() {
+            const panel = document.getElementById('routePanel');
+            const burger = document.getElementById('burgerMenu');
+            const overlay = document.getElementById('overlay');
+            
+            panel.classList.toggle('active');
+            burger.classList.toggle('active');
+            
+            if (panel.classList.contains('active')) {
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
+                document.getElementById('pointA').value = '';
+                document.getElementById('pointB').value = '';
+            }
+        }
+
+        function buildRoute() {
+            const pointA = document.getElementById('pointA').value;
+            const pointB = document.getElementById('pointB').value;
+            
+            if (!pointA || !pointB) {
+                showMessage('Заполните оба поля!');
+                return;
+            }
+            
+            showMessage(`Маршрут построен: ${pointA} → ${pointB}`);
+            
+            setTimeout(() => {
+                toggleRoutePanel();
+            }, 2000);
+        }
+
+        function showMessage(text) {
+            const oldInfo = document.querySelector('.info-card');
+            if (oldInfo) oldInfo.remove();
+
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'info-card';
+            infoDiv.innerHTML = `
+                <p>Маршрут</p>
+                <p>${text}</p>
+                <button class="close-info" onclick="this.parentElement.remove()">OK</button>
+            `;
+
+            document.getElementById('infoContainer').appendChild(infoDiv);
+        }
+
+        function closeAll() {
+            const panel = document.getElementById('routePanel');
+            const burger = document.getElementById('burgerMenu');
+            const overlay = document.getElementById('overlay');
+            
+            panel.classList.remove('active');
+            burger.classList.remove('active');
+            overlay.classList.remove('active');
+            
+            document.getElementById('pointA').value = '';
+            document.getElementById('pointB').value = '';
+        }
+    </script>
+</body>
+
+</html>

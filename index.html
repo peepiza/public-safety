@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>приложение "Аркадий-паровозов"</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #E2D797;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            max-width: 400px;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 3px solid #721E1E;
+            text-align: center;
+        }
+
+        .app-title {
+            color: #721E1E;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            text-shadow: 3px 3px 0 #E2D797;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px 20px;
+            border: none;
+            border-radius: 60px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-primary {
+            background-color: #721E1E;
+            color: #E2D797;
+            border: 2px solid #721E1E;
+            box-shadow: 0 5px 0 #4a1313;
+        }
+
+        .btn-primary:hover {
+            background-color: #8f2626;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 0 #4a1313;
+        }
+
+        .btn-primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #4a1313;
+        }
+
+        .btn-secondary {
+            background-color: #E2D797;
+            color: #721E1E;
+            border: 2px solid #721E1E;
+            box-shadow: 0 5px 0 #b8a76b;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0e5b0;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 0 #b8a76b;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #4a1313;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1 class="app-title">Аркадий-паровозов</h1>
+
+        <button onclick="location.href='openAc.html'" class="btn btn-primary">Войти в аккаунт</button>
+        <button onclick="location.href='register.html'" class="btn btn-secondary">Регистрация</button>
+    </div>
+</body>
+
+</html>

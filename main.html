@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приложение "Аркадий-паровозов"</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #E2D797;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .app-title {
+            color: #721E1E;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 #E2D797;
+        }
+
+        .iphone-frame {
+            background-color: #111;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin: 0 auto;
+            max-width: 380px;
+            border: 3px solid #721E1E;
+        }
+
+        .iphone-screen {
+            background-color: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            aspect-ratio: 9/19;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig');
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .top-left-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        .top-right-icons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            color: #E2D797;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        .bottom-right-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            color: #E2D797;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-right-icon:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .bottom-right-icon:active {
+            transform: scale(0.95);
+        }
+
+        .burger-menu {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            color: #E2D797;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .burger-menu:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .burger-menu:active {
+            transform: scale(0.95);
+        }
+
+        .burger-line {
+            width: 20px;
+            height: 3px;
+            background-color: #E2D797;
+            border-radius: 3px;
+        }
+
+        .info-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 3px solid #721E1E;
+            max-width: 250px;
+            text-align: center;
+            z-index: 20;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            animation: infoAppear 0.3s ease;
+        }
+
+        @keyframes infoAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .info-card p {
+            color: #721E1E;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .close-info {
+            background-color: #721E1E;
+            color: #E2D797;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .close-info:hover {
+            background-color: #8f2626;
+        }
+
+        .close-info:active {
+            transform: scale(0.95);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 15;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            color: #721E1E;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border-bottom: 2px solid #E2D797;
+            padding-bottom: 3px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            border-bottom-color: #721E1E;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="iphone-frame">
+            <div class="iphone-screen" id="mapScreen">
+                <div class="map-overlay"></div>
+
+                <div class="top-left-icons">
+                    <div class="burger-menu" onclick="location.href='humburger.html'">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </div>
+                </div>
+
+                <div class="top-right-icons">
+                    <div class="icon-btn" id="friendIcon">
+                        😼
+                    </div>
+                </div>
+
+                <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='settings.html'">
+                    ⚙️
+                </div>
+
+                <div id="infoContainer"></div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

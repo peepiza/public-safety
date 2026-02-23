@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приложение "Аркадий-паровозов"</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #E2D797;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            max-width: 400px;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 3px solid #721E1E;
+            text-align: center;
+            position: relative;
+        }
+
+        .app-title {
+            color: #721E1E;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 #E2D797;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px 20px;
+            border: none;
+            border-radius: 60px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #721E1E;
+            color: #E2D797;
+            border: 2px solid #721E1E;
+            box-shadow: 0 5px 0 #4a1313;
+        }
+
+        .btn-primary:hover {
+            background-color: #8f2626;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 0 #4a1313;
+        }
+
+        .btn-primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #4a1313;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: white;
+            max-width: 350px;
+            width: 90%;
+            padding: 30px 25px;
+            border-radius: 30px;
+            border: 3px solid #721E1E;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: popupAppear 0.3s ease;
+        }
+
+        @keyframes popupAppear {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #721E1E;
+        }
+
+        .popup-title {
+            color: #721E1E;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .popup-text {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .popup-btn {
+            flex: 1;
+            padding: 14px 10px;
+            border: none;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            border: 2px solid #721E1E;
+        }
+
+        .popup-btn-confirm {
+            background-color: #721E1E;
+            color: #E2D797;
+            box-shadow: 0 4px 0 #4a1313;
+        }
+
+        .popup-btn-confirm:hover {
+            background-color: #8f2626;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 0 #4a1313;
+        }
+
+        .popup-btn-confirm:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #4a1313;
+        }
+
+        .popup-btn-cancel {
+            background-color: #E2D797;
+            color: #721E1E;
+            box-shadow: 0 4px 0 #b8a76b;
+        }
+
+        .popup-btn-cancel:hover {
+            background-color: #f0e5b0;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 0 #b8a76b;
+        }
+
+        .popup-btn-cancel:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #b8a76b;
+        }
+
+        .iphone-frame {
+            background-color: #111;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin: 0 auto;
+            max-width: 380px;
+            border: 3px solid #721E1E;
+        }
+
+        .iphone-screen {
+            background-color: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            aspect-ratio: 9/19;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .top-left-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        .top-right-icons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #E2D797;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        .burger-menu {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .burger-menu:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .burger-menu:active {
+            transform: scale(0.95);
+        }
+
+        .burger-line {
+            width: 20px;
+            height: 3px;
+            background-color: #E2D797;
+            border-radius: 3px;
+        }
+
+        .bottom-right-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            cursor: pointer;
+            background-color: #721E1E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #E2D797;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-right-icon:hover {
+            transform: scale(1.1);
+            background-color: #8f2626;
+        }
+
+        .bottom-right-icon:active {
+            transform: scale(0.95);
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: #721E1E;
+            color: #E2D797;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #E2D797;
+            z-index: 100;
+            white-space: nowrap;
+            animation: tooltipAppear 0.3s ease;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #721E1E;
+        }
+
+        @keyframes tooltipAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 3px solid #721E1E;
+            max-width: 250px;
+            text-align: center;
+            z-index: 20;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            animation: infoAppear 0.3s ease;
+        }
+
+        @keyframes infoAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .info-card p {
+            color: #721E1E;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .close-info {
+            background-color: #721E1E;
+            color: #E2D797;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .close-info:hover {
+            background-color: #8f2626;
+        }
+
+        .close-info:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="overlay" class="overlay">
+        <div id="questionPopup" class="popup">
+            <div class="popup-title">Интерактивная инструкция?</div>
+            <div class="popup-text" style="text-align: center;">Хотите посмотреть краткую инструкцию по приложению?
+            </div>
+            <div class="popup-buttons" style="display: flex; gap: 15px;">
+                <button onclick="showIntroText()" class="popup-btn popup-btn-confirm" style="flex: 1;">Да</button>
+                <button onclick="goToMainApp()" class="popup-btn popup-btn-cancel" style="flex: 1;">Нет</button>
+            </div>
+        </div>
+
+        <div id="introPopup" class="popup" style="display: none;">
+            <div class="popup-title">Добро пожаловать!</div>
+            <div class="popup-text">
+                Нужно всегда быть начеку в наше время. Наше приложение предлагает систему быстрого оповещения и помощи.
+                Вы сможете делиться геопозицией с близкими, получать экстренные уведомления и быстро связываться со
+                службами спасения.
+                Вместе мы сделаем город безопаснее!
+            </div>
+            <button onclick="showTutorial()" class="btn btn-primary" style="margin: 10px 0 0;">Дальше</button>
+        </div>
+    </div>
+
+    <div id="mainScreen" style="display: none; width: 100%; max-width: 400px;">
+        <div class="iphone-frame">
+            <div class="iphone-screen" id="mapScreen"
+                style="background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig'); background-size: cover; background-position: center;">
+                <div class="map-overlay"></div>
+
+                <div class="top-left-icons">
+                    <div class="burger-menu" onclick="showIconInfo('burger')">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </div>
+                </div>
+
+                <div class="top-right-icons">
+                    <div class="icon-btn" id="friendIcon" onclick="showIconInfo('friend')">👤</div>
+                </div>
+
+                <div class="bottom-right-icon" id="settingsIcon" onclick="showIconInfo('settings')">⚙️</div>
+
+                <div id="tooltipContainer"></div>
+                <div id="infoContainer"></div>
+            </div>
+        </div>
+
+        <div id="floatingTooltip" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: none;"></div>
+
+        <button id="continueBtn" onclick="goToMainApp()" class="btn btn-primary"
+            style="margin-top: 20px; display: none;">Завершить инструкцию</button>
+    </div>
+
+    <script>
+        function startAfterPermissions() {
+            document.getElementById('overlay').style.display = 'flex';
+            document.getElementById('questionPopup').style.display = 'block';
+        }
+
+        function showIntroText() {
+            document.getElementById('questionPopup').style.display = 'none';
+            document.getElementById('introPopup').style.display = 'block';
+        }
+
+        function showTutorial() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'block';
+            setTimeout(showFriendTooltip, 500);
+        }
+
+        function goToMainApp() {
+            window.location.href = 'main.html';
+        }
+
+        function showFriendTooltip() {
+            const floatingTooltip = document.getElementById('floatingTooltip');
+            floatingTooltip.innerHTML = '';
+            floatingTooltip.style.display = 'block';
+
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.style.position = 'relative';
+            tooltip.style.top = 'auto';
+            tooltip.style.right = 'auto';
+            tooltip.style.margin = '0';
+            tooltip.textContent = 'Нажми на иконки, чтобы узнать их назначение';
+
+            floatingTooltip.appendChild(tooltip);
+
+            if (!document.getElementById('tooltipStyle')) {
+                const style = document.createElement('style');
+                style.id = 'tooltipStyle';
+                style.textContent = `
+                    #floatingTooltip .tooltip::after {
+                        content: '';
+                        position: absolute;
+                        top: -10px;
+                        right: 20px;
+                        border-left: 10px solid transparent;
+                        border-right: 10px solid transparent;
+                        border-bottom: 10px solid #721E1E;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        function showIconInfo(iconType) {
+            document.getElementById('floatingTooltip').style.display = 'none';
+            
+            const oldInfo = document.querySelector('.info-card');
+            if (oldInfo) {
+                oldInfo.remove();
+            }
+
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'info-card';
+
+            if (iconType === 'friend') {
+                infoDiv.innerHTML = `
+                    <p>Добавить друга</p>
+                    <p>Позволяет добавить человека в список доверенных контактов. Вы сможете делиться с ним геопозицией и получать уведомления о его безопасности.</p>
+                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
+                `;
+            } else if (iconType === 'settings') {
+                infoDiv.innerHTML = `
+                    <p>Настройки</p>
+                    <p>Есть возможность: посмотреть инструкцию, изменить тему, отредактировать аккаунт и пополнить черный список.</p>
+                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
+                `;
+            } else if (iconType === 'burger') {
+                infoDiv.innerHTML = `
+                    <p>Меню</p>
+                    <p>Повзоляет выстраивать маршрут от пункта А до пункта Б.</p>
+                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
+                `;
+            }
+
+            document.getElementById('infoContainer').appendChild(infoDiv);
+            
+            document.getElementById('continueBtn').style.display = 'block';
+        }
+
+        window.onload = function () {
+            setTimeout(startAfterPermissions, 500);
+        };
+    </script>
+</body>
+
+</html>
