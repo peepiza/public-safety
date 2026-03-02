@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #E2D797;
+            background-color: white;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -36,7 +36,7 @@
             position: relative;
             margin: 0 auto;
             max-width: 380px;
-            border: 3px solid #721E1E;
+            border: 3px solid #000;
         }
 
         .iphone-screen {
@@ -71,32 +71,31 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
+            background-color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 6px;
             transition: all 0.2s ease;
-            z-index: 20;
         }
 
         .burger-menu:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .burger-menu.active {
-            background-color: #8f2626;
-            transform: scale(0.95);
+            transform: scale(0.55);
         }
 
         .burger-line {
             width: 20px;
             height: 3px;
-            background-color: #E2D797;
+            background-color: #000;
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -125,20 +124,20 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: #E2D797;
             transition: all 0.2s ease;
         }
 
         .icon-btn:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .bottom-right-icon {
@@ -149,21 +148,21 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: #E2D797;
             z-index: 10;
             transition: all 0.2s ease;
         }
 
         .bottom-right-icon:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .route-panel {
@@ -172,7 +171,7 @@
             left: 0;
             right: 0;
             background-color: white;
-            border-top: 3px solid #721E1E;
+            border-top: 3px solid #000;
             border-radius: 30px 30px 0 0;
             padding: 20px;
             transform: translateY(100%);
@@ -186,7 +185,7 @@
         }
 
         .route-title {
-            color: #721E1E;
+            color: #000;
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 15px;
@@ -201,7 +200,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #721E1E;
+            color: #000;
             font-weight: 600;
             margin-bottom: 5px;
         }
@@ -213,16 +212,16 @@
         .route-input {
             width: 100%;
             padding: 15px 20px;
-            border: 2px solid #E2D797;
+            border: 3px solid #45679a;
             border-radius: 60px;
             font-size: 16px;
             outline: none;
-            background-color: #F5F0E0;
+            background-color: white;
             transition: border-color 0.2s;
         }
 
         .route-input:focus {
-            border-color: #721E1E;
+            border-color: #317530;
         }
 
         .route-buttons {
@@ -232,79 +231,45 @@
         }
 
         .route-btn {
-            flex: 1;
-            padding: 15px;
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
             border: none;
-            border-radius: 60px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: all 0.2s ease;
         }
 
         .route-btn-build {
-            background-color: #721E1E;
-            color: #E2D797;
-            border: 2px solid #721E1E;
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000000;
         }
 
         .route-btn-build:hover {
-            background-color: #8f2626;
+            background-color: #3f5981;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 0 #000000
         }
 
         .route-btn-cancel {
-            background-color: #E2D797;
-            color: #721E1E;
-            border: 2px solid #721E1E;
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000000;
         }
 
         .route-btn-cancel:hover {
-            background-color: #f0e5b0;
+            background-color: #3f5981;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 0 #000000
         }
 
-        .info-card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 20px;
-            border: 3px solid #721E1E;
-            max-width: 250px;
-            text-align: center;
-            z-index: 30;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            animation: infoAppear 0.3s ease;
-        }
-
-        @keyframes infoAppear {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -40%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        .info-card p {
-            color: #721E1E;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .close-info {
-            background-color: #721E1E;
-            color: #E2D797;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+    
     </style>
 </head>
 
@@ -350,8 +315,6 @@
                         <button class="route-btn route-btn-cancel" onclick="toggleRoutePanel()">Отмена</button>
                     </div>
                 </div>
-
-                <div id="infoContainer"></div>
             </div>
         </div>
     </div>

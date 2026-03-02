@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #E2D797;
+            background-color: white;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -26,31 +26,59 @@
             background-color: white;
             max-width: 400px;
             width: 100%;
-            padding: 40px 30px;
-            border-radius: 30px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            border: 3px solid #721E1E;
+            padding: 310px 60px;
+            border-radius: 60px;
+            border: 3px solid #000;
             text-align: center;
-            position: relative;
         }
 
         .app-title {
-            color: #721E1E;
-            font-size: 36px;
+            color: #000;
+            font-size: 30px;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 2px;
             line-height: 1.2;
-            text-shadow: 3px 3px 0 #E2D797;
         }
 
         .subtitle {
-            color: #721E1E;
+            color: #000;
             font-size: 18px;
             margin-bottom: 30px;
             opacity: 0.9;
         }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 5px 20px;
+            border: none;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-primary {
+            background-color: #c1c5cd;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-primary:hover {
+            background-color: #45679a;
+            transform: translateY(-1px);
+        }
+
         .overlay {
             position: fixed;
             top: 0;
@@ -70,7 +98,7 @@
             width: 90%;
             padding: 30px 25px;
             border-radius: 30px;
-            border: 3px solid #721E1E;
+            border: 3px solid #000;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             animation: popupAppear 0.3s ease;
@@ -87,15 +115,9 @@
             }
         }
 
-        .popup-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-            color: #721E1E;
-        }
-
         .popup-title {
-            color: #721E1E;
-            font-size: 24px;
+            color: #000;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 15px;
         }
@@ -107,7 +129,7 @@
         }
 
         .popup-small {
-            color: #721E1E;
+            color: #45679a;
             font-size: 12px;
             margin-bottom: 25px;
             opacity: 0.7;
@@ -122,7 +144,7 @@
 
         .popup-btn {
             flex: 1;
-            padding: 14px 10px;
+            padding: 10px 10px;
             border: none;
             border-radius: 60px;
             font-size: 16px;
@@ -131,49 +153,49 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.2s ease;
-            border: 2px solid #721E1E;
+            border: 2px solid #000;
         }
 
         .popup-btn-confirm {
-            background-color: #721E1E;
-            color: #E2D797;
-            box-shadow: 0 4px 0 #4a1313;
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000000;
         }
 
         .popup-btn-confirm:hover {
-            background-color: #8f2626;
+            background-color: #3f5981;
             transform: translateY(-1px);
-            box-shadow: 0 6px 0 #4a1313;
+            box-shadow: 0 2px 0 #000000
         }
 
         .popup-btn-confirm:active {
             transform: translateY(3px);
-            box-shadow: 0 0 0 #4a1313;
+            box-shadow: 0 0 0 #000;
         }
 
         .popup-btn-cancel {
-            background-color: #E2D797;
-            color: #721E1E;
-            box-shadow: 0 4px 0 #b8a76b;
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000;
         }
 
         .popup-btn-cancel:hover {
-            background-color: #f0e5b0;
+            background-color: #3f5981;
             transform: translateY(-1px);
-            box-shadow: 0 6px 0 #b8a76b;
+            box-shadow: 0 2px 0 #000000
         }
 
         .popup-btn-cancel:active {
             transform: translateY(3px);
-            box-shadow: 0 0 0 #b8a76b;
+            box-shadow: 0 0 0 #000;
         }
 
         .info-text {
             margin-top: 30px;
-            color: #721E1E;
+            color: #45679a;
             font-size: 14px;
-            border-top: 2px dashed #E2D797;
             padding-top: 20px;
+            font-style: italic;
         }
     </style>
 </head>
@@ -182,7 +204,7 @@
     <div class="card">
         <div class="subtitle">Настройка безопасности</div>
                 
-        <button onclick="startPermissions()" class="btn btn-primary" style="margin-bottom: 15px;">Начать настройку</button>
+        <button onclick="startPermissions()" class="btn btn-primary" style="margin-bottom: 15px;">Нажми на меня</button>
         
         <div class="info-text">
             Для работы приложения нужны разрешения

@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #E2D797;
+            background-color: white;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,25 +28,15 @@
             text-align: center;
         }
 
-        .app-title {
-            color: #721E1E;
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 0 #E2D797;
-        }
-
         .iphone-frame {
-            background-color: #111;
+            background-color: #000;
             border-radius: 40px;
             padding: 10px;
             box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
             position: relative;
             margin: 0 auto;
             max-width: 380px;
-            border: 3px solid #721E1E;
+            border: 3px solid #000;
         }
 
         .iphone-screen {
@@ -90,10 +80,9 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
-            color: #E2D797;
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -103,11 +92,12 @@
 
         .icon-btn:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .icon-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.55);
         }
 
         .bottom-right-icon {
@@ -118,10 +108,9 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
-            color: #E2D797;
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -132,11 +121,12 @@
 
         .bottom-right-icon:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .bottom-right-icon:active {
-            transform: scale(0.95);
+            transform: scale(0.55);
         }
 
         .burger-menu {
@@ -144,10 +134,9 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
-            color: #E2D797;
+            background-color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -158,98 +147,19 @@
 
         .burger-menu:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .burger-menu:active {
-            transform: scale(0.95);
+            transform: scale(0.55);
         }
 
         .burger-line {
             width: 20px;
             height: 3px;
-            background-color: #E2D797;
+            background-color: #000;
             border-radius: 3px;
-        }
-
-        .info-card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 20px;
-            border: 3px solid #721E1E;
-            max-width: 250px;
-            text-align: center;
-            z-index: 20;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            animation: infoAppear 0.3s ease;
-        }
-
-        @keyframes infoAppear {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -40%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        .info-card p {
-            color: #721E1E;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .close-info {
-            background-color: #721E1E;
-            color: #E2D797;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.2s ease;
-        }
-
-        .close-info:hover {
-            background-color: #8f2626;
-        }
-
-        .close-info:active {
-            transform: scale(0.95);
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 15;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            color: #721E1E;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            border-bottom: 2px solid #E2D797;
-            padding-bottom: 3px;
-            cursor: pointer;
-        }
-
-        .back-btn:hover {
-            border-bottom-color: #721E1E;
         }
     </style>
 </head>
@@ -278,8 +188,6 @@
                 <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='settings.html'">
                     ⚙️
                 </div>
-
-                <div id="infoContainer"></div>
             </div>
         </div>
     </div>
