@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Приложение "Аркадий-паровозов"</title>
+    <title>Аркадий Паровозов - Инструкция</title>
     <style>
         * {
             margin: 0;
@@ -22,161 +22,14 @@
             padding: 20px;
         }
 
-        .card {
-            background-color: white;
+        .container {
             max-width: 400px;
             width: 100%;
-            padding: 310px 60px;
-            border-radius: 60px;
-            border: 3px solid #000;
             text-align: center;
-        }
-
-        .app-title {
-            color: #000;
-            font-size: 30px;
-            font-weight: 800;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            line-height: 1.2;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 5px 20px;
-            border: none;
-            border-radius: 40px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
-        }
-
-        .btn:last-child {
-            margin-bottom: 0;
-        }
-
-        .btn-primary {
-            background-color: #c1c5cd;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-primary:hover {
-            background-color: #45679a;
-            transform: translateY(-1px);
-        }
-
-        .btn-primary:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .popup {
-            background-color: white;
-            max-width: 350px;
-            width: 90%;
-            padding: 30px 25px;
-            border-radius: 30px;
-            border: 3px solid #000;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            animation: popupAppear 0.3s ease;
-        }
-
-        @keyframes popupAppear {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .popup-title {
-            color: #000;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .popup-text {
-            color: #333;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .popup-btn {
-            flex: 1;
-            padding: 4px 10px;
-            border: none;
-            border-radius: 60px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
-            border: 2px solid #000;
-        }
-
-        .popup-btn-confirm {
-            background-color: #45679a;
-            color: white;
-            border: 2px solid #000000;
-        }
-
-        .popup-btn-confirm:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
-        }
-
-        .popup-btn-confirm:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
-        }
-
-        .popup-btn-cancel {
-            background-color: #45679a;
-            color: white;
-            border: 2px solid #000;
-        }
-
-        .popup-btn-cancel:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
-        }
-
-        .popup-btn-cancel:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
         }
 
         .iphone-frame {
-            background-color: #111;
+            background-color: #000;
             border-radius: 40px;
             padding: 10px;
             box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
@@ -194,6 +47,7 @@
             position: relative;
             background-size: cover;
             background-position: center;
+            background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig');
         }
 
         .map-overlay {
@@ -210,6 +64,35 @@
             top: 20px;
             left: 20px;
             z-index: 10;
+        }
+
+        .burger-menu {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #bdb7b7;
+            cursor: pointer;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .burger-menu:hover {
+            transform: scale(1.1);
+            background-color: #45679a;
+            border: none;
+        }
+
+        .burger-line {
+            width: 20px;
+            height: 3px;
+            background-color: #000;
+            border-radius: 3px;
         }
 
         .top-right-icons {
@@ -242,43 +125,6 @@
             border: none;
         }
 
-        .icon-btn:active {
-            transform: scale(0.55);
-        }
-
-        .burger-menu {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #bdb7b7;
-            cursor: pointer;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .burger-menu:hover {
-            transform: scale(1.1);
-            background-color: #45679a;
-            border: none;
-        }
-
-        .burger-menu:active {
-            transform: scale(0.55);
-        }
-
-        .burger-line {
-            width: 20px;
-            height: 3px;
-            background-color: #000;
-            border-radius: 3px;
-        }
-
         .bottom-right-icon {
             position: absolute;
             bottom: 20px;
@@ -304,255 +150,147 @@
             border: none;
         }
 
-        .bottom-right-icon:active {
-            transform: scale(0.55);
-        }
-
-        .tooltip {
+        /* Кнопка возврата на главную */
+        .back-to-map {
             position: absolute;
-            background-color: #d4cece;
-            color: #000;
-            padding: 12px 20px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            white-space: nowrap;
-            animation: tooltipAppear 0.3s ease;
-        }
-
-        .tooltip::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            right: 20px;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 10px solid #d4cece;
-        }
-
-        @keyframes tooltipAppear {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .info-card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 20px;
+            left: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #bdb7b7;
+            cursor: pointer;
             background-color: white;
-            padding: 20px;
-            border-radius: 20px;
-            border: 3px solid #45679a;
-            max-width: 250px;
-            text-align: center;
-            z-index: 20;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            animation: infoAppear 0.3s ease;
-        }
-
-        @keyframes infoAppear {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -40%);
-            }
-
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        .info-card p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 100;
+            transition: all 0.2s ease;
+            text-decoration: none;
             color: #000;
-            margin-bottom: 10px;
-            font-size: 14px;
         }
 
-        .close-info {
+        .back-to-map:hover {
+            transform: scale(1.1);
+            background-color: #45679a;
+            border: none;
+            color: white;
+        }
+
+        .instruction-content {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 25px;
+            border: 3px solid #45679a;
+            z-index: 50;
+            text-align: left;
+        }
+
+        .instruction-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .instruction-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .instruction-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
             background-color: #45679a;
             color: white;
-            border: #000;
-            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .instruction-text {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .skip-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000;
             border-radius: 60px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 20px;
+            text-transform: uppercase;
             transition: all 0.2s ease;
         }
 
-        .close-info:hover {
+        .skip-btn:hover {
             background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
-        }
-
-        .close-info:active {
-            transform: scale(0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 0 #000;
         }
     </style>
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=985a7e68-8ff9-4339-a7f8-2002f5645e3a&lang=ru_RU" type="text/javascript"></script>
 </head>
 
 <body>
-    <div id="overlay" class="overlay">
-        <div id="questionPopup" class="popup">
-            <div class="popup-title">Интерактивная инструкция?</div>
-            <div class="popup-text" style="text-align: center;">Хотите посмотреть краткую инструкцию по приложению?
-            </div>
-            <div class="popup-buttons" style="display: flex; gap: 15px;">
-                <button onclick="showIntroText()" class="popup-btn popup-btn-confirm" style="flex: 1;">Да</button>
-                <button onclick="goToMap()" class="popup-btn popup-btn-cancel" style="flex: 1;">Нет</button>
-            </div>
-        </div>
-
-        <div id="introPopup" class="popup" style="display: none;">
-            <div class="popup-title">Добро пожаловать!</div>
-            <div class="popup-text">
-                Нужно всегда быть начеку в наше время. Наше приложение предлагает систему быстрого оповещения и помощи.
-                Вы сможете делиться геопозицией с близкими, получать экстренные уведомления и быстро связываться со
-                службами спасения.
-                Вместе мы сделаем город безопаснее!
-            </div>
-            <button onclick="showTutorial()" class="btn btn-primary" style="margin: 10px 0 0;">Дальше</button>
-        </div>
-    </div>
-
-    <div id="mainScreen" style="display: none; width: 100%; max-width: 400px;">
+    <div class="container">
         <div class="iphone-frame">
-            <div class="iphone-screen" id="mapScreen"
-                style="background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig'); background-size: cover; background-position: center;">
+            <div class="iphone-screen" id="mapScreen">
                 <div class="map-overlay"></div>
 
-                <div class="top-left-icons">
-                    <div class="burger-menu" onclick="showIconInfo('burger')">
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                    </div>
-                </div>
+                <!-- Кнопка возврата на карту -->
+                <a href="map.html" class="back-to-map">←</a>
 
                 <div class="top-right-icons">
-                    <div class="icon-btn" id="friendIcon" onclick="showIconInfo('friend')">👤</div>
+                    <div class="icon-btn" onclick="location.href='map.html'">😼</div>
                 </div>
 
-                <div class="bottom-right-icon" id="settingsIcon" onclick="showIconInfo('settings')">⚙️</div>
+                <div class="bottom-right-icon" onclick="location.href='settings.html'">⚙️</div>
 
-                <div id="tooltipContainer"></div>
-                <div id="infoContainer"></div>
+                <!-- Содержимое инструкции -->
+                <div class="instruction-content">
+                    <div class="instruction-title">Как пользоваться</div>
+                    
+                    <div class="instruction-item">
+                        <div class="instruction-icon">🍔</div>
+                        <div class="instruction-text">Меню для построения безопасного маршрута</div>
+                    </div>
+
+                    <div class="instruction-item">
+                        <div class="instruction-icon">👤</div>
+                        <div class="instruction-text">Добавление друзей для наблюдения</div>
+                    </div>
+
+                    <div class="instruction-item">
+                        <div class="instruction-icon">⚙️</div>
+                        <div class="instruction-text">Настройки и чёрный список</div>
+                    </div>
+
+                    <!-- Кнопка перехода на карту -->
+                    <button class="skip-btn" onclick="location.href='map.html'">
+                        Перейти к карте
+                    </button>
+                </div>
             </div>
         </div>
-
-        <div id="floatingTooltip" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: none;"></div>
-
-        <button id="continueBtn" onclick="goToMap()" class="btn btn-primary"
-            style="margin-top: 20px; display: none;">Завершить инструкцию</button>
     </div>
-
-    <script>
-        function startAfterPermissions() {
-            document.getElementById('overlay').style.display = 'flex';
-            document.getElementById('questionPopup').style.display = 'block';
-        }
-
-        function showIntroText() {
-            document.getElementById('questionPopup').style.display = 'none';
-            document.getElementById('introPopup').style.display = 'block';
-        }
-
-        function showTutorial() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('mainScreen').style.display = 'block';
-            setTimeout(showFriendTooltip, 500);
-        }
-
-        // ИСПРАВЛЕНО: теперь ведёт на map.html
-        function goToMap() {
-            window.location.href = 'map.html';
-        }
-
-        function showFriendTooltip() {
-            const floatingTooltip = document.getElementById('floatingTooltip');
-            floatingTooltip.innerHTML = '';
-            floatingTooltip.style.display = 'block';
-
-            const tooltip = document.createElement('div');
-            tooltip.className = 'tooltip';
-            tooltip.style.position = 'relative';
-            tooltip.style.top = 'auto';
-            tooltip.style.right = 'auto';
-            tooltip.style.margin = '0';
-            tooltip.textContent = 'Нажми на иконки, чтобы узнать их назначение';
-
-            floatingTooltip.appendChild(tooltip);
-
-            if (!document.getElementById('tooltipStyle')) {
-                const style = document.createElement('style');
-                style.id = 'tooltipStyle';
-                style.textContent = `
-                    #floatingTooltip .tooltip::after {
-                        content: '';
-                        position: absolute;
-                        top: -10px;
-                        right: 20px;
-                        border-left: 10px solid transparent;
-                        border-right: 10px solid transparent;
-                        border-bottom: 10px solid #721E1E;
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-        }
-
-        function showIconInfo(iconType) {
-            document.getElementById('floatingTooltip').style.display = 'none';
-            
-            const oldInfo = document.querySelector('.info-card');
-            if (oldInfo) {
-                oldInfo.remove();
-            }
-
-            const infoDiv = document.createElement('div');
-            infoDiv.className = 'info-card';
-
-            if (iconType === 'friend') {
-                infoDiv.innerHTML = `
-                    <p>Добавить друга</p>
-                    <p>Позволяет добавить человека в список доверенных контактов. Вы сможете делиться с ним геопозицией и получать уведомления о его безопасности.</p>
-                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
-                `;
-            } else if (iconType === 'settings') {
-                infoDiv.innerHTML = `
-                    <p>Настройки</p>
-                    <p>Есть возможность: посмотреть инструкцию, изменить тему, отредактировать аккаунт и пополнить черный список.</p>
-                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
-                `;
-            } else if (iconType === 'burger') {
-                infoDiv.innerHTML = `
-                    <p>Меню</p>
-                    <p>Позволяет выстраивать маршрут от пункта А до пункта Б.</p>
-                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
-                `;
-            }
-
-            document.getElementById('infoContainer').appendChild(infoDiv);
-            
-            document.getElementById('continueBtn').style.display = 'block';
-        }
-
-        window.onload = function () {
-            setTimeout(startAfterPermissions, 500);
-        };
-    </script>
 </body>
 
 </html>
