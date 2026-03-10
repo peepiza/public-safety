@@ -425,7 +425,7 @@
             </div>
             <div class="popup-buttons" style="display: flex; gap: 15px;">
                 <button onclick="showIntroText()" class="popup-btn popup-btn-confirm" style="flex: 1;">Да</button>
-                <button onclick="goToMainApp()" class="popup-btn popup-btn-cancel" style="flex: 1;">Нет</button>
+                <button onclick="goToMap()" class="popup-btn popup-btn-cancel" style="flex: 1;">Нет</button>
             </div>
         </div>
 
@@ -473,6 +473,7 @@
     </div>
 
     <script>
+        // Функции для инструкции (они будут вызываться ТОЛЬКО при клике)
         function startAfterPermissions() {
             document.getElementById('overlay').style.display = 'flex';
             document.getElementById('questionPopup').style.display = 'block';
@@ -489,12 +490,10 @@
             setTimeout(showFriendTooltip, 500);
         }
 
-        // ИСПРАВЛЕНО: теперь ведёт на map.html, а не на ту же страницу
         function goToMainApp() {
             window.location.href = 'map.html';
         }
 
-        // Новая функция для кнопки "Завершить инструкцию"
         function goToMap() {
             window.location.href = 'map.html';
         }
@@ -551,6 +550,17 @@
             document.getElementById('continueBtn').style.display = 'block';
         }
 
+        // *** ГЛАВНОЕ ИСПРАВЛЕНИЕ: УДАЛЯЕМ АВТОМАТИЧЕСКИЙ ЗАПУСК ИНСТРУКЦИИ ***
+        // window.onload = function () {
+        //     setTimeout(startAfterPermissions, 500);
+        // };
+        
+        // Вместо этого просто показываем карту сразу
+        document.addEventListener('DOMContentLoaded', function() {
+            // Показываем главный экран
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'block';
+        });
     </script>
 </body>
 
