@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #E2D797;
+            background-color: white;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -26,55 +26,55 @@
             background-color: white;
             max-width: 400px;
             width: 100%;
-            padding: 40px 30px;
-            border-radius: 30px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            border: 3px solid #721E1E;
+            padding: 310px 60px;
+            border-radius: 60px;
+            border: 3px solid #000;
             text-align: center;
-            position: relative;
         }
 
         .app-title {
-            color: #721E1E;
-            font-size: 36px;
+            color: #000;
+            font-size: 30px;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 3px 3px 0 #E2D797;
+            line-height: 1.2;
         }
 
         .btn {
             display: block;
             width: 100%;
-            padding: 18px 20px;
+            padding: 5px 20px;
             border: none;
-            border-radius: 60px;
-            font-size: 20px;
+            border-radius: 40px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            margin: 20px 0;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.2s ease;
         }
 
+        .btn:last-child {
+            margin-bottom: 0;
+        }
+
         .btn-primary {
-            background-color: #721E1E;
-            color: #E2D797;
-            border: 2px solid #721E1E;
-            box-shadow: 0 5px 0 #4a1313;
+            background-color: #c1c5cd;
+            color: white;
+            border: 2px solid white;
         }
 
         .btn-primary:hover {
-            background-color: #8f2626;
+            background-color: #45679a;
             transform: translateY(-1px);
-            box-shadow: 0 7px 0 #4a1313;
         }
 
         .btn-primary:active {
             transform: translateY(3px);
-            box-shadow: 0 0 0 #4a1313;
+            box-shadow: 0 0 0 #000;
         }
 
         .overlay {
@@ -96,7 +96,7 @@
             width: 90%;
             padding: 30px 25px;
             border-radius: 30px;
-            border: 3px solid #721E1E;
+            border: 3px solid #000;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             animation: popupAppear 0.3s ease;
@@ -114,15 +114,9 @@
             }
         }
 
-        .popup-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-            color: #721E1E;
-        }
-
         .popup-title {
-            color: #721E1E;
-            font-size: 24px;
+            color: #000;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 15px;
         }
@@ -130,57 +124,55 @@
         .popup-text {
             color: #333;
             font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            text-align: left;
+            margin-bottom: 20px;
         }
 
         .popup-btn {
             flex: 1;
-            padding: 14px 10px;
+            padding: 4px 10px;
             border: none;
             border-radius: 60px;
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.2s ease;
-            border: 2px solid #721E1E;
+            border: 2px solid #000;
         }
 
         .popup-btn-confirm {
-            background-color: #721E1E;
-            color: #E2D797;
-            box-shadow: 0 4px 0 #4a1313;
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000000;
         }
 
         .popup-btn-confirm:hover {
-            background-color: #8f2626;
+            background-color: #3f5981;
             transform: translateY(-1px);
-            box-shadow: 0 6px 0 #4a1313;
+            box-shadow: 0 2px 0 #000000
         }
 
         .popup-btn-confirm:active {
             transform: translateY(3px);
-            box-shadow: 0 0 0 #4a1313;
+            box-shadow: 0 0 0 #000;
         }
 
         .popup-btn-cancel {
-            background-color: #E2D797;
-            color: #721E1E;
-            box-shadow: 0 4px 0 #b8a76b;
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000;
         }
 
         .popup-btn-cancel:hover {
-            background-color: #f0e5b0;
+            background-color: #3f5981;
             transform: translateY(-1px);
-            box-shadow: 0 6px 0 #b8a76b;
+            box-shadow: 0 2px 0 #000000
         }
 
         .popup-btn-cancel:active {
             transform: translateY(3px);
-            box-shadow: 0 0 0 #b8a76b;
+            box-shadow: 0 0 0 #000;
         }
 
         .iphone-frame {
@@ -191,7 +183,7 @@
             position: relative;
             margin: 0 auto;
             max-width: 380px;
-            border: 3px solid #721E1E;
+            border: 3px solid #000;
         }
 
         .iphone-screen {
@@ -234,24 +226,24 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: #E2D797;
             transition: all 0.2s ease;
         }
 
         .icon-btn:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .icon-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.55);
         }
 
         .burger-menu {
@@ -259,9 +251,9 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
+            background-color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -272,17 +264,18 @@
 
         .burger-menu:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .burger-menu:active {
-            transform: scale(0.95);
+            transform: scale(0.55);
         }
 
         .burger-line {
             width: 20px;
             height: 3px;
-            background-color: #E2D797;
+            background-color: #000;
             border-radius: 3px;
         }
 
@@ -294,37 +287,36 @@
             height: 44px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            background-color: #721E1E;
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: #E2D797;
             z-index: 10;
             transition: all 0.2s ease;
         }
 
         .bottom-right-icon:hover {
             transform: scale(1.1);
-            background-color: #8f2626;
+            background-color: #45679a;
+            border: none;
         }
 
         .bottom-right-icon:active {
-            transform: scale(0.95);
+            transform: scale(0.55);
         }
 
         .tooltip {
             position: absolute;
-            background-color: #721E1E;
-            color: #E2D797;
+            background-color: #d4cece;
+            color: #000;
             padding: 12px 20px;
             border-radius: 30px;
             font-size: 16px;
             font-weight: 600;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border: 2px solid #E2D797;
             z-index: 100;
             white-space: nowrap;
             animation: tooltipAppear 0.3s ease;
@@ -337,7 +329,7 @@
             right: 20px;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
-            border-bottom: 10px solid #721E1E;
+            border-bottom: 10px solid #d4cece;
         }
 
         @keyframes tooltipAppear {
@@ -360,7 +352,7 @@
             background-color: white;
             padding: 20px;
             border-radius: 20px;
-            border: 3px solid #721E1E;
+            border: 3px solid #45679a;
             max-width: 250px;
             text-align: center;
             z-index: 20;
@@ -381,15 +373,15 @@
         }
 
         .info-card p {
-            color: #721E1E;
+            color: #000;
             margin-bottom: 10px;
             font-size: 14px;
         }
 
         .close-info {
-            background-color: #721E1E;
-            color: #E2D797;
-            border: none;
+            background-color: #45679a;
+            color: white;
+            border: #000;
             padding: 8px 20px;
             border-radius: 60px;
             font-weight: 600;
@@ -399,7 +391,9 @@
         }
 
         .close-info:hover {
-            background-color: #8f2626;
+            background-color: #3f5981;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 0 #000000
         }
 
         .close-info:active {
