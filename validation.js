@@ -89,6 +89,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (isValid) {
+                const userData = {
+                    name: nameValue,
+                    phone: numberValue,
+                    birthDate: dateValue,
+                    password: passwordValue,
+                    registeredAt: new Date().toISOString(),
+                };
+
+                localStorage.setItem('currentUser', JSON.stringify(userData));
+
+                saveUserToHistory(userData);
+
                 const formData = {
                     name: nameValue,
                     phone: numberValue,
@@ -100,10 +112,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.dispatchEvent(event);
 
                 alert('Регистрация прошла успешно!');
-                
+
                 window.location.href = 'agreement.html';
             }
         });
+    }
+    function saveUserToHistory(userData) {
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        users.push({
+            ...userData,
+            id: Date.now()
+        });
+
+        localStorage.setItem('users', JSON.stringify(users));
     }
 
     function showError(input, message) {
@@ -112,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const inputGroup = input.closest('.input-group');
         if (inputGroup) {
-            
+
             const oldError = inputGroup.querySelector('.error-message');
             if (oldError) oldError.remove();
 
@@ -129,11 +151,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-    
+
     function clearOldErrors() {
         document.querySelectorAll('.input-group input').forEach(input => {
             input.style.border = '';
         });
         document.querySelectorAll('.error-message').forEach(el => el.remove());
     }
+
 });
