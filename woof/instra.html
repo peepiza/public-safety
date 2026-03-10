@@ -192,8 +192,13 @@
             overflow: hidden;
             aspect-ratio: 9/19;
             position: relative;
-            background-size: cover;
-            background-position: center;
+        }
+
+        #map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .map-overlay {
@@ -203,6 +208,8 @@
             right: 0;
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            pointer-events: none;
         }
 
         .top-left-icons {
@@ -234,6 +241,7 @@
             justify-content: center;
             font-size: 24px;
             transition: all 0.2s ease;
+            z-index: 10;
         }
 
         .icon-btn:hover {
@@ -399,8 +407,16 @@
         .close-info:active {
             transform: scale(0.95);
         }
+
+        #floatingTooltip {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: none;
+        }
     </style>
-    <script src="https://api-maps.yandex.ru/v3/?apikey=ВАШ_КЛЮЧ_API&lang=ru_RU" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=985a7e68-8ff9-4339-a7f8-2002f5645e3a&lang=ru_RU" type="text/javascript"></script>
 </head>
 
 <body>
@@ -429,8 +445,8 @@
 
     <div id="mainScreen" style="display: none; width: 100%; max-width: 400px;">
         <div class="iphone-frame">
-            <div class="iphone-screen" id="mapScreen"
-                style="background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig'); background-size: cover; background-position: center;">
+            <div class="iphone-screen" id="mapScreen">
+                <div id="map-container"></div>
                 <div class="map-overlay"></div>
 
                 <div class="top-left-icons">
@@ -452,13 +468,16 @@
             </div>
         </div>
 
-        <div id="floatingTooltip" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: none;"></div>
+        <div id="floatingTooltip"></div>
 
         <button id="continueBtn" onclick="goToMainApp()" class="btn btn-primary"
             style="margin-top: 20px; display: none;">Завершить инструкцию</button>
     </div>
 
     <script>
+        let map;
+        let userMarker;
+
         function startAfterPermissions() {
             document.getElementById('overlay').style.display = 'flex';
             document.getElementById('questionPopup').style.display = 'block';
@@ -472,11 +491,52 @@
         function showTutorial() {
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('mainScreen').style.display = 'block';
-            setTimeout(showFriendTooltip, 500);
+            
+            setTimeout(() => {
+                initMap();
+                showFriendTooltip();
+            }, 500);
         }
 
         function goToMainApp() {
-            window.location.href = 'main.html';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'none';
+            window.location.href = '../woof/map.html';
+        }
+
+        function initMap() {
+            const defaultCoords = [55.76, 37.64];
+            
+            map = new ymaps.Map('map-container', {
+                center: defaultCoords,
+                zoom: 12,
+                controls: ['zoomControl']
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const userCoords = [position.coords.latitude, position.coords.longitude];
+                        map.setCenter(userCoords, 15);
+                        
+                        if (userMarker) {
+                            map.geoObjects.remove(userMarker);
+                        }
+                        
+                        userMarker = new ymaps.Placemark(userCoords, {
+                            hintContent: 'Вы здесь'
+                        }, {
+                            preset: 'islands#blueCircleDotIcon',
+                            iconColor: '#45679a'
+                        });
+                        
+                        map.geoObjects.add(userMarker);
+                    },
+                    function(error) {
+                        console.log('Геолокация не доступна');
+                    }
+                );
+            }
         }
 
         function showFriendTooltip() {
@@ -514,7 +574,7 @@
 
         function showIconInfo(iconType) {
             document.getElementById('floatingTooltip').style.display = 'none';
-            
+
             const oldInfo = document.querySelector('.info-card');
             if (oldInfo) {
                 oldInfo.remove();
@@ -538,20 +598,22 @@
             } else if (iconType === 'burger') {
                 infoDiv.innerHTML = `
                     <p>Меню</p>
-                    <p>Повзоляет выстраивать маршрут от пункта А до пункта Б.</p>
+                    <p>Позволяет выстраивать маршрут от пункта А до пункта Б.</p>
                     <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
                 `;
             }
 
             document.getElementById('infoContainer').appendChild(infoDiv);
-            
             document.getElementById('continueBtn').style.display = 'block';
         }
+
+        ymaps.ready(function() {
+            console.log('API Яндекс Карт готов');
+        });
 
         window.onload = function () {
             setTimeout(startAfterPermissions, 500);
         };
     </script>
 </body>
-
 </html>

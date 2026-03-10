@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +26,7 @@
             background-color: white;
             max-width: 400px;
             width: 100%;
-            padding: 190px 60px;
+            padding: 40px 60px;
             border-radius: 60px;
             border: 3px solid #000;
             text-align: center;
@@ -41,44 +42,8 @@
             line-height: 1.2;
         }
 
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 40px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
-        }
-
-        .btn:last-child {
-            margin-bottom: 0;
-        }
-
-        .btn-primary {
-            background-color: #45679a;
-            color: white;
-            border: 2px solid #000000;
-        }
-
-        .btn-primary:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
-        }
-
-        .btn-primary:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
-        }
-
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
@@ -104,6 +69,38 @@
             border-color: #317530;
         }
 
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #3f5981;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 0 #000000
+        }
+
+        .btn-primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #000;
+        }
+
         .back-link {
             display: inline-block;
             margin-top: 25px;
@@ -119,24 +116,42 @@
         }
     </style>
 </head>
-<body>  
+
+<body>
     <div class="card">
-        <h1 class="app-title">Вход</h1>
-        
+        <h1 class="app-title">Регистрация</h1>
+
         <div class="input-group">
             <label>Имя</label>
-            <input type="text" placeholder="введи никнейм" id="username">
+            <input type="text" id="name-input" placeholder="придумай никнейм">
         </div>
-        
+
         <div class="input-group">
-            <label>Пароль</label>
-            <input type="password" placeholder="введи пароль" id="password">
+            <label>Номер телефона</label>
+            <input type="tel" id="number-input" placeholder="+7 (989) 943-49-63">
         </div>
-        
-        <button id="loginButton" class="btn btn-primary">Войти</button>
-        
-        <a href="index.html" class="back-link">← Назад</a>
+
+        <div class="input-group">
+            <label>Дата рождения</label>
+            <input type="date" id="data-input" placeholder="ДД.ММ.ГГГГ">
+        </div>
+
+        <div class="input-group">
+            <label>Придумайте пароль</label>
+            <input type="password" id="password-input" placeholder="••••••••">
+        </div>
+
+        <div class="input-group">
+            <label>Подтвердите пароль</label>
+            <input type="password" id="sec-password-input" placeholder="••••••••">
+        </div>
+
+        <button id="register-button" class="btn btn-primary">Зарегистрироваться</button>
+
+        <a href="../woof/index.html" class="back-link">← Назад</a>
     </div>
-    <scripts src="../login.js"></scripts>
+    <script src="../meow/calculate.js"></script>
+    <script src="../meow/validation.js"></script> 
 </body>
+
 </html>

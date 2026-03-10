@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приложение "Аркадий-паровозов"</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=985a7e68-8ff9-4339-a7f8-2002f5645e3a&lang=ru_RU" type="text/javascript"></script>
     <style>
         * {
             margin: 0;
@@ -45,18 +46,13 @@
             overflow: hidden;
             aspect-ratio: 9/19;
             position: relative;
-            background-size: cover;
-            background-position: center;
-            background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig');
         }
 
-        .map-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.1);
+        #map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .top-left-icons {
@@ -89,7 +85,7 @@
         }
 
         .burger-menu.active {
-            transform: scale(0.55);
+            background-color: #45679a;
         }
 
         .burger-line {
@@ -100,16 +96,8 @@
             transition: all 0.3s ease;
         }
 
-        .burger-menu.active .burger-line:nth-child(1) {
-            transform: rotate(45deg) translate(6px, 6px);
-        }
-
-        .burger-menu.active .burger-line:nth-child(2) {
-            opacity: 0;
-        }
-
-        .burger-menu.active .burger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(6px, -6px);
+        .burger-menu.active .burger-line {
+            background-color: white;
         }
 
         .top-right-icons {
@@ -165,7 +153,23 @@
             border: none;
         }
 
-        .route-panel {
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 5;
+            border-radius: 30px;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .route-window {
             position: absolute;
             bottom: 0;
             left: 0;
@@ -173,23 +177,24 @@
             background-color: white;
             border-top: 3px solid #000;
             border-radius: 30px 30px 0 0;
-            padding: 20px;
+            padding: 25px 20px;
             transform: translateY(100%);
             transition: transform 0.3s ease;
             z-index: 15;
             box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .route-panel.active {
+        .route-window.active {
             transform: translateY(0);
         }
 
         .route-title {
             color: #000;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: center;
+            text-transform: uppercase;
         }
 
         .route-input-group {
@@ -202,10 +207,11 @@
             gap: 10px;
             color: #000;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 16px;
         }
 
-        .route-label span {
+        .route-label .marker {
             font-size: 20px;
         }
 
@@ -226,61 +232,146 @@
 
         .route-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 25px;
         }
 
         .route-btn {
-            display: block;
-            width: 100%;
-            padding: 10px 20px;
+            flex: 1;
+            padding: 15px 20px;
             border: none;
             border-radius: 40px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.2s ease;
+            border: 2px solid #000000;
         }
 
         .route-btn-build {
             background-color: #45679a;
             color: white;
-            border: 2px solid #000000;
         }
 
         .route-btn-build:hover {
             background-color: #3f5981;
             transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
+            box-shadow: 0 2px 0 #000000;
         }
 
         .route-btn-cancel {
-            background-color: #45679a;
+            background-color: #c1c5cd;
             color: white;
-            border: 2px solid #000000;
         }
 
         .route-btn-cancel:hover {
-            background-color: #3f5981;
+            background-color: #a0a4ab;
             transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
+            box-shadow: 0 2px 0 #000000;
         }
 
-    
+        .route-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #000;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        .close-icon:hover {
+            color: #ff3860;
+        }
+
+        .info-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 3px solid #45679a;
+            max-width: 250px;
+            text-align: center;
+            z-index: 20;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            animation: infoAppear 0.3s ease;
+        }
+
+        @keyframes infoAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .info-card p {
+            color: #000;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .close-info {
+            background-color: #45679a;
+            color: white;
+            border: 2px solid #000;
+            padding: 10px 30px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .close-info:hover {
+            background-color: #3f5981;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 0 #000000;
+        }
+
+        .close-info:active {
+            transform: scale(0.95);
+        }
+
+        #infoContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        #infoContainer > * {
+            pointer-events: auto;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="iphone-frame">
-            <div class="iphone-screen" id="mapScreen">
-                <div class="map-overlay"></div>
+            <div class="iphone-screen">
+                <div id="map-container"></div>
+                
+                <div class="overlay" id="overlay" onclick="closeRouteWindow()"></div>
 
                 <div class="top-left-icons">
-                    <div class="burger-menu" id="burgerMenu" onclick="toggleRoutePanel()">
+                    <div class="burger-menu" id="burgerMenu" onclick="toggleRouteWindow()">
                         <div class="burger-line"></div>
                         <div class="burger-line"></div>
                         <div class="burger-line"></div>
@@ -288,69 +379,128 @@
                 </div>
 
                 <div class="top-right-icons">
-                    <div class="icon-btn" id="friendIcon">😼</div>
+                    <div class="icon-btn" id="friendIcon" onclick="showFriendMessage()">😼</div>
                 </div>
 
                 <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='settings.html'">⚙️</div>
 
-                <div class="route-panel" id="routePanel">
+                <div class="route-window" id="routeWindow">
+                    <div class="close-icon" onclick="closeRouteWindow()">×</div>
                     <div class="route-title">Построить маршрут</div>
                     
                     <div class="route-input-group">
                         <div class="route-label">
-                            <span>Точка А (начало)</span>
+                            <span class="marker"></span> Точка А (начало)
                         </div>
                         <input type="text" class="route-input" id="pointA" placeholder="например: Тверская ул., 7">
                     </div>
 
                     <div class="route-input-group">
                         <div class="route-label">
-                            <span>Точка Б (конец)</span>
+                            <span class="marker"></span> Точка Б (конец)
                         </div>
                         <input type="text" class="route-input" id="pointB" placeholder="например: Красная площадь">
                     </div>
 
                     <div class="route-buttons">
                         <button class="route-btn route-btn-build" onclick="buildRoute()">Построить</button>
-                        <button class="route-btn route-btn-cancel" onclick="toggleRoutePanel()">Отмена</button>
+                        <button class="route-btn route-btn-cancel" onclick="closeRouteWindow()">Отмена</button>
                     </div>
                 </div>
+
+                <div id="infoContainer"></div>
             </div>
         </div>
     </div>
 
     <script>
-        function toggleRoutePanel() {
-            const panel = document.getElementById('routePanel');
-            const burger = document.getElementById('burgerMenu');
-            const overlay = document.getElementById('overlay');
+        let map;
+        let userLocation;
+
+        ymaps.ready(initMap);
+
+        function initMap() {
+            const defaultCoords = [55.76, 37.64];
             
-            panel.classList.toggle('active');
-            burger.classList.toggle('active');
-            
-            if (panel.classList.contains('active')) {
-                overlay.classList.add('active');
-            } else {
-                overlay.classList.remove('active');
-                document.getElementById('pointA').value = '';
-                document.getElementById('pointB').value = '';
+            map = new ymaps.Map('map-container', {
+                center: defaultCoords,
+                zoom: 12,
+                controls: ['zoomControl']
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const userCoords = [position.coords.latitude, position.coords.longitude];
+                        map.setCenter(userCoords, 15);
+                        
+                        const placemark = new ymaps.Placemark(userCoords, {
+                            hintContent: 'Вы здесь'
+                        }, {
+                            preset: 'islands#blueCircleDotIcon',
+                            iconColor: '#45679a'
+                        });
+                        map.geoObjects.add(placemark);
+                        userLocation = userCoords;
+                    },
+                    function(error) {
+                        console.log('Геолокация не доступна');
+                    }
+                );
             }
         }
 
+        function toggleRouteWindow() {
+            const window = document.getElementById('routeWindow');
+            const burger = document.getElementById('burgerMenu');
+            const overlay = document.getElementById('overlay');
+            
+            window.classList.toggle('active');
+            burger.classList.toggle('active');
+            
+            if (window.classList.contains('active')) {
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
+                clearInputs();
+            }
+        }
+
+        function closeRouteWindow() {
+            const window = document.getElementById('routeWindow');
+            const burger = document.getElementById('burgerMenu');
+            const overlay = document.getElementById('overlay');
+            
+            window.classList.remove('active');
+            burger.classList.remove('active');
+            overlay.classList.remove('active');
+            
+            clearInputs();
+        }
+
+        function clearInputs() {
+            document.getElementById('pointA').value = '';
+            document.getElementById('pointB').value = '';
+        }
+
         function buildRoute() {
-            const pointA = document.getElementById('pointA').value;
-            const pointB = document.getElementById('pointB').value;
+            const pointA = document.getElementById('pointA').value.trim();
+            const pointB = document.getElementById('pointB').value.trim();
             
             if (!pointA || !pointB) {
                 showMessage('Заполните оба поля!');
                 return;
             }
             
-            showMessage(`Маршрут построен: ${pointA} → ${pointB}`);
-            
+            showMessage(` Маршрут строится: ${pointA} → ${pointB}`);
+                        
             setTimeout(() => {
-                toggleRoutePanel();
-            }, 2000);
+                closeRouteWindow();
+            }, 1500);
+        }
+
+        function showFriendMessage() {
+            showMessage('Функция добавления друга в разработке');
         }
 
         function showMessage(text) {
@@ -360,26 +510,36 @@
             const infoDiv = document.createElement('div');
             infoDiv.className = 'info-card';
             infoDiv.innerHTML = `
-                <p>Маршрут</p>
                 <p>${text}</p>
                 <button class="close-info" onclick="this.parentElement.remove()">OK</button>
             `;
 
             document.getElementById('infoContainer').appendChild(infoDiv);
+
+            setTimeout(() => {
+                if (infoDiv.parentElement) {
+                    infoDiv.remove();
+                }
+            }, 3000);
         }
 
-        function closeAll() {
-            const panel = document.getElementById('routePanel');
-            const burger = document.getElementById('burgerMenu');
-            const overlay = document.getElementById('overlay');
-            
-            panel.classList.remove('active');
-            burger.classList.remove('active');
-            overlay.classList.remove('active');
-            
-            document.getElementById('pointA').value = '';
-            document.getElementById('pointB').value = '';
-        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeRouteWindow();
+            }
+        });
+
+        document.getElementById('pointA').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('pointB').focus();
+            }
+        });
+
+        document.getElementById('pointB').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buildRoute();
+            }
+        });
     </script>
 </body>
 
