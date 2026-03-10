@@ -1,4 +1,4 @@
-map.html: <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -291,9 +291,6 @@ map.html: <!DOCTYPE html>
                         map.geoObjects.add(userPlacemark);
                         
                         showGeoMessage('✅ Местоположение определено');
-                        
-                        // Здесь можно добавить вызов функции для расчета безопасных маршрутов
-                        // calculateSafeRoutes(userCoords);
                     },
                     // Ошибка
                     function(error) {
@@ -323,7 +320,6 @@ map.html: <!DOCTYPE html>
             map.events.add('click', function(e) {
                 const coords = e.get('coords');
                 console.log('Координаты клика:', coords);
-                // Здесь можно добавить логику для построения маршрута
             });
         }
         
@@ -334,10 +330,7 @@ map.html: <!DOCTYPE html>
             // location.href = 'add-friend.html';
         }
         
-        // Ждем загрузки API и запускаем инициализацию
-        ymaps.ready(initMap);
-        
-        // Дополнительная функция для построения маршрута (будет использоваться из humburger.html)
+        // Функция для построения маршрута (будет вызываться из humburger.html)
         function buildRoute(from, to) {
             if (!map) {
                 showGeoMessage('Карта еще не загружена', true);
@@ -346,22 +339,36 @@ map.html: <!DOCTYPE html>
             
             showGeoMessage('Строим безопасный маршрут...');
             
-            // Здесь будет логика построения маршрута через API Яндекс.Карт
-            // и расчета коэффициента безопасности
-            
             ymaps.route([from, to], {
                 mapStateAutoApply: true
             }).then(function(route) {
                 map.geoObjects.add(route);
                 showGeoMessage('✅ Маршрут построен');
-                
-                // Здесь можно добавить раскраску сегментов по безопасности
-                // и отправку маршрута наблюдателю
             }, function(error) {
                 showGeoMessage('❌ Ошибка построения маршрута', true);
                 console.error(error);
             });
         }
+        
+        // Проверяем, есть ли сохраненный маршрут из hamburger.html
+        function checkSavedRoute() {
+            const pointA = localStorage.getItem('routePointA');
+            const pointB = localStorage.getItem('routePointB');
+            
+            if (pointA && pointB && map) {
+                buildRoute(pointA, pointB);
+                // Очищаем сохраненные точки
+                localStorage.removeItem('routePointA');
+                localStorage.removeItem('routePointB');
+            }
+        }
+        
+        // Ждем загрузки API и запускаем инициализацию
+        ymaps.ready(function() {
+            initMap();
+            // Проверяем сохраненный маршрут через небольшую задержку
+            setTimeout(checkSavedRoute, 1000);
+        });
     </script>
 </body>
 
