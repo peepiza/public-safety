@@ -261,18 +261,94 @@
         }
         
         function handlePermission(confirmed, popupNumber) {
-            if (!confirmed) {
-                window.location.href = 'register.html';
-                return;
+    if (!confirmed) {
+        window.location.href = 'register.html';
+        return;
+    }
+    
+    if (popupNumber < 3) {
+        showPopup(popupNumber + 1);
+    } else {
+        // Все разрешения получены - скрываем окно разрешений
+        document.getElementById('overlay').style.display = 'none';
+        
+        // ПОКАЗЫВАЕМ ПРЕДЛОЖЕНИЕ ИНСТРУКЦИИ
+        showInstructionOffer();
+    }
+}
+
+// Новая функция для предложения инструкции
+function showInstructionOffer() {
+    // Создаём затемнение
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+    `;
+    
+    // Создаём попап с предложением
+    const popup = document.createElement('div');
+    popup.style.cssText = `
+        background-color: white;
+        max-width: 350px;
+        width: 90%;
+        padding: 30px 25px;
+        border-radius: 30px;
+        border: 3px solid #000;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        animation: popupAppear 0.3s ease;
+    `;
+    
+    popup.innerHTML = `
+        <div style="font-size: 20px; font-weight: 700; margin-bottom: 15px;">Интерактивная инструкция?</div>
+        <div style="color: #333; font-size: 16px; margin-bottom: 20px; text-align: center;">
+            Хотите посмотреть краткую инструкцию по приложению?
+        </div>
+        <div style="display: flex; gap: 15px;">
+            <button id="yesBtn" style="flex: 1; padding: 10px; background-color: #45679a; color: white; border: 2px solid #000; border-radius: 60px; font-size: 16px; font-weight: 600; cursor: pointer;">Да</button>
+            <button id="noBtn" style="flex: 1; padding: 10px; background-color: #45679a; color: white; border: 2px solid #000; border-radius: 60px; font-size: 16px; font-weight: 600; cursor: pointer;">Нет</button>
+        </div>
+    `;
+    
+    overlay.appendChild(popup);
+    document.body.appendChild(overlay);
+    
+    // Обработчики кнопок
+    document.getElementById('yesBtn').addEventListener('click', function() {
+        document.body.removeChild(overlay);
+        window.location.href = 'instra.html'; // На инструкцию
+    });
+    
+    document.getElementById('noBtn').addEventListener('click', function() {
+        document.body.removeChild(overlay);
+        window.location.href = 'map.html'; // Сразу на карту
+    });
+    
+    // Добавляем анимацию
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes popupAppear {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
             }
-            
-            if (popupNumber < 3) {
-                showPopup(popupNumber + 1);
-            } else {
-                document.getElementById('overlay').style.display = 'none';
-                window.location.href = 'map.html';
+            to {
+                transform: scale(1);
+                opacity: 1;
             }
         }
+    `;
+    document.head.appendChild(style);
+}
     </script>
 </body>
 
