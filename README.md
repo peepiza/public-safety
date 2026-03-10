@@ -1,1 +1,1 @@
-https://peepiza.github.io/public-safety/
+https://peepiza.github.io/public-safety/index.html
