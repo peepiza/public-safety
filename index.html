@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>приложение "Аркадий-паровозов"</title>
+    <title>Приложение "Аркадий-паровозов"</title>
     <style>
         * {
             margin: 0;
@@ -22,76 +22,202 @@
             padding: 20px;
         }
 
-        .card {
-            background-color: white;
+        .container {
             max-width: 400px;
             width: 100%;
-            padding: 340px 60px;
-            border-radius: 60px;
-            border: 3px solid #000;
-            text-align: center;
+            position: relative;
         }
 
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 10px 20px;
-            border: none;
+        .iphone-frame {
+            background-color: #111;
             border-radius: 40px;
-            font-size: 18px;
-            font-weight: 700;
+            padding: 10px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin: 0 auto;
+            max-width: 380px;
+            border: 3px solid #000;
+        }
+
+        .iphone-screen {
+            background-color: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            aspect-ratio: 9/19;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig');
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .top-left-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        .burger-menu {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #bdb7b7;
             cursor: pointer;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             transition: all 0.2s ease;
         }
 
-        .btn:last-child {
-            margin-bottom: 0;
-        }
-
-        .btn-primary {
+        .burger-menu:hover {
+            transform: scale(1.1);
             background-color: #45679a;
-            color: white;
-            border: 2px solid #000000;
+            border: none;
         }
 
-        .btn-primary:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
+        .burger-menu.active {
+            transform: scale(0.55);
         }
 
-        .btn-primary:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000000;
+        .burger-line {
+            width: 20px;
+            height: 3px;
+            background-color: #000;
+            border-radius: 3px;
+            transition: all 0.3s ease;
         }
 
-        .btn-secondary {
+        .burger-menu.active .burger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .burger-menu.active .burger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active .burger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .top-right-icons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #bdb7b7;
+            cursor: pointer;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
             background-color: #45679a;
-            color: white;
-            border: 2px solid #000000;
+            border: none;
         }
 
-        .btn-secondary:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000;
+        .bottom-right-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #bdb7b7;
+            cursor: pointer;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 10;
+            transition: all 0.2s ease;
         }
 
-        .btn-secondary:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
+        .bottom-right-icon:hover {
+            transform: scale(1.1);
+            background-color: #45679a;
+            border: none;
         }
-    </style>
-</head>
 
-<body>
-    <div class="card">
-        <button onclick="location.href='openAc.html'" class="btn btn-primary">Войти в аккаунт</button>
-        <button onclick="location.href='register.html'" class="btn btn-secondary">Регистрация</button>
-    </div>
-</body>
+        .route-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-top: 3px solid #000;
+            border-radius: 30px 30px 0 0;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 15;
+            box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.2);
+        }
 
-</html>
+        .route-panel.active {
+            transform: translateY(0);
+        }
+
+        .route-title {
+            color: #000;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .route-input-group {
+            margin-bottom: 15px;
+        }
+
+        .route-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #000;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .route-label span {
+            font-size: 20px;
+        }
+
+        .route-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 3px solid #45679a;
+            border-radius: 60px;
+            font-size: 16px;
+            outline: none;
+            background-color: white;
+            transition: border-color 0.2s;
+        }
+
+       

@@ -252,92 +252,98 @@
         
         // Инициализация карты после загрузки API
         function initMap() {
-            // Координаты центра России (Москва) как запасной вариант
-            const defaultCenter = [55.76, 37.64];
-            
-            // Создаем карту
-            map = new ymaps.Map('map-container', {
-                center: defaultCenter,
-                zoom: 15,
-                controls: ['zoomControl'] // Добавляем кнопки зума
-            });
-            
-            // Пытаемся получить геолокацию
-            if (navigator.geolocation) {
-                showGeoMessage('Запрашиваем доступ к геолокации...');
+            try {
+                // Координаты центра России (Москва) как запасной вариант
+                const defaultCenter = [55.76, 37.64];
                 
-                navigator.geolocation.getCurrentPosition(
-                    // Успех
-                    function(position) {
-                        const userCoords = [position.coords.latitude, position.coords.longitude];
-                        
-                        // Перемещаем карту к пользователю
-                        map.setCenter(userCoords, 16);
-                        
-                        // Удаляем старую метку если была
-                        if (userPlacemark) {
-                            map.geoObjects.remove(userPlacemark);
+                // Создаем карту
+                map = new ymaps.Map('map-container', {
+                    center: defaultCenter,
+                    zoom: 15,
+                    controls: ['zoomControl']
+                });
+                
+                console.log('Карта успешно создана');
+                
+                // Пытаемся получить геолокацию
+                if (navigator.geolocation) {
+                    showGeoMessage('Запрашиваем доступ к геолокации...');
+                    
+                    navigator.geolocation.getCurrentPosition(
+                        // Успех
+                        function(position) {
+                            try {
+                                const userCoords = [position.coords.latitude, position.coords.longitude];
+                                
+                                // Перемещаем карту к пользователю
+                                map.setCenter(userCoords, 16);
+                                
+                                // Удаляем старую метку если была
+                                if (userPlacemark) {
+                                    map.geoObjects.remove(userPlacemark);
+                                }
+                                
+                                // Создаем метку пользователя
+                                userPlacemark = new ymaps.Placemark(userCoords, {
+                                    hintContent: 'Вы здесь',
+                                    balloonContent: 'Ваше текущее местоположение'
+                                }, {
+                                    preset: 'islands#blueCircleDotIcon',
+                                    iconColor: '#45679a'
+                                });
+                                
+                                map.geoObjects.add(userPlacemark);
+                                showGeoMessage('✅ Местоположение определено');
+                            } catch(e) {
+                                console.error('Ошибка при установке метки:', e);
+                                showGeoMessage('⚠️ Ошибка отображения метки', true);
+                            }
+                        },
+                        // Ошибка
+                        function(error) {
+                            let errorText = 'Ошибка геолокации: ';
+                            switch(error.code) {
+                                case error.PERMISSION_DENIED:
+                                    errorText += 'Вы запретили доступ';
+                                    break;
+                                case error.POSITION_UNAVAILABLE:
+                                    errorText += 'Информация недоступна';
+                                    break;
+                                case error.TIMEOUT:
+                                    errorText += 'Время ожидания истекло';
+                                    break;
+                                default:
+                                    errorText += 'Неизвестная ошибка';
+                            }
+                            showGeoMessage('❌ ' + errorText, true);
+                            console.error(errorText);
                         }
-                        
-                        // Создаем красивую метку пользователя
-                        userPlacemark = new ymaps.Placemark(userCoords, {
-                            hintContent: 'Вы здесь',
-                            balloonContent: 'Ваше текущее местоположение'
-                        }, {
-                            preset: 'islands#blueCircleDotIcon',
-                            iconColor: '#45679a'
-                        });
-                        
-                        map.geoObjects.add(userPlacemark);
-                        
-                        showGeoMessage('✅ Местоположение определено');
-                        
-                        // Здесь можно добавить вызов функции для расчета безопасных маршрутов
-                        // calculateSafeRoutes(userCoords);
-                    },
-                    // Ошибка
-                    function(error) {
-                        let errorText = 'Ошибка геолокации: ';
-                        switch(error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorText += 'Вы запретили доступ к геолокации';
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorText += 'Информация о местоположении недоступна';
-                                break;
-                            case error.TIMEOUT:
-                                errorText += 'Время ожидания истекло';
-                                break;
-                            default:
-                                errorText += 'Неизвестная ошибка';
-                        }
-                        showGeoMessage('❌ ' + errorText, true);
-                        console.error(errorText);
-                    }
-                );
-            } else {
-                showGeoMessage('❌ Браузер не поддерживает геолокацию', true);
+                    );
+                } else {
+                    showGeoMessage('❌ Браузер не поддерживает геолокацию', true);
+                }
+                
+                // Добавляем обработчик клика по карте
+                map.events.add('click', function(e) {
+                    const coords = e.get('coords');
+                    console.log('Координаты клика:', coords);
+                });
+
+                // Проверяем сохраненный маршрут
+                checkSavedRoute();
+                
+            } catch (error) {
+                console.error('Ошибка при создании карты:', error);
+                showGeoMessage('❌ Ошибка загрузки карты', true);
             }
-            
-            // Добавляем обработчик клика по карте для тестирования
-            map.events.add('click', function(e) {
-                const coords = e.get('coords');
-                console.log('Координаты клика:', coords);
-                // Здесь можно добавить логику для построения маршрута
-            });
         }
         
         // Функция для добавления друга (заглушка)
         function addFriend() {
             showGeoMessage('🔜 Функция добавления друга в разработке');
-            // Здесь будет переход на страницу добавления друга
-            // location.href = 'add-friend.html';
         }
         
-        // Ждем загрузки API и запускаем инициализацию
-        ymaps.ready(initMap);
-        
-        // Дополнительная функция для построения маршрута (будет использоваться из humburger.html)
+        // Функция для построения маршрута
         function buildRoute(from, to) {
             if (!map) {
                 showGeoMessage('Карта еще не загружена', true);
@@ -346,22 +352,43 @@
             
             showGeoMessage('Строим безопасный маршрут...');
             
-            // Здесь будет логика построения маршрута через API Яндекс.Карт
-            // и расчета коэффициента безопасности
-            
             ymaps.route([from, to], {
                 mapStateAutoApply: true
             }).then(function(route) {
                 map.geoObjects.add(route);
                 showGeoMessage('✅ Маршрут построен');
-                
-                // Здесь можно добавить раскраску сегментов по безопасности
-                // и отправку маршрута наблюдателю
             }, function(error) {
                 showGeoMessage('❌ Ошибка построения маршрута', true);
                 console.error(error);
             });
         }
+        
+        // Проверяем, есть ли сохраненный маршрут из hamburger.html
+        function checkSavedRoute() {
+            const pointA = localStorage.getItem('routePointA');
+            const pointB = localStorage.getItem('routePointB');
+            
+            if (pointA && pointB && map) {
+                buildRoute(pointA, pointB);
+                // Очищаем сохраненные точки
+                localStorage.removeItem('routePointA');
+                localStorage.removeItem('routePointB');
+            }
+        }
+        
+        // Ждем загрузки API и запускаем инициализацию
+        ymaps.ready(function() {
+            console.log('API Яндекс.Карт загружен');
+            initMap();
+        });
+
+        // Добавляем проверку на ошибки загрузки API
+        window.addEventListener('error', function(e) {
+            if (e.target.tagName === 'SCRIPT') {
+                console.error('Ошибка загрузки скрипта:', e.target.src);
+                showGeoMessage('❌ Ошибка загрузки карты', true);
+            }
+        });
     </script>
 </body>
 

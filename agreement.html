@@ -264,14 +264,13 @@
             if (!confirmed) {
                 window.location.href = 'register.html';
                 return;
+                }        
+                if (popupNumber < 3) {
+                    showPopup(popupNumber + 1);
+                } else {
+                    document.getElementById('overlay').style.display = 'none';
+                }
             }
-            
-            if (popupNumber < 3) {
-                showPopup(popupNumber + 1);
-            } else {
-                document.getElementById('overlay').style.display = 'none';
-            }
-        }
     </script>
 </body>
 
