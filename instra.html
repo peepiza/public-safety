@@ -25,223 +25,73 @@
         .container {
             max-width: 400px;
             width: 100%;
-            text-align: center;
         }
 
-        .iphone-frame {
-            background-color: #000;
-            border-radius: 40px;
-            padding: 10px;
-            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-            margin: 0 auto;
-            max-width: 380px;
+        .instruction-card {
+            background-color: white;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 60px;
             border: 3px solid #000;
-        }
-
-        .iphone-screen {
-            background-color: #fff;
-            border-radius: 30px;
-            overflow: hidden;
-            aspect-ratio: 9/19;
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            background-image: url('https://avatars.mds.yandex.net/get-mpic/5210335/2a0000019205a080080ac479fde3a5bbe98a/orig');
-        }
-
-        .map-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .top-left-icons {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-        }
-
-        .burger-menu {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #bdb7b7;
-            cursor: pointer;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .burger-menu:hover {
-            transform: scale(1.1);
-            background-color: #45679a;
-            border: none;
-        }
-
-        .burger-line {
-            width: 20px;
-            height: 3px;
-            background-color: #000;
-            border-radius: 3px;
-        }
-
-        .top-right-icons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 15px;
-            z-index: 10;
-        }
-
-        .icon-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #bdb7b7;
-            cursor: pointer;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            transition: all 0.2s ease;
-        }
-
-        .icon-btn:hover {
-            transform: scale(1.1);
-            background-color: #45679a;
-            border: none;
-        }
-
-        .bottom-right-icon {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #bdb7b7;
-            cursor: pointer;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            z-index: 10;
-            transition: all 0.2s ease;
-        }
-
-        .bottom-right-icon:hover {
-            transform: scale(1.1);
-            background-color: #45679a;
-            border: none;
-        }
-
-        /* Кнопка возврата на главную */
-        .back-to-map {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #bdb7b7;
-            cursor: pointer;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            z-index: 100;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            color: #000;
-        }
-
-        .back-to-map:hover {
-            transform: scale(1.1);
-            background-color: #45679a;
-            border: none;
-            color: white;
-        }
-
-        .instruction-content {
-            position: absolute;
-            top: 80px;
-            left: 20px;
-            right: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 30px;
-            padding: 25px;
-            border: 3px solid #45679a;
-            z-index: 50;
-            text-align: left;
-        }
-
-        .instruction-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 15px;
             text-align: center;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-transform: uppercase;
         }
 
         .instruction-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+            padding: 10px;
+            border-radius: 20px;
+            background-color: #f5f5f5;
         }
 
-        .instruction-icon {
-            width: 44px;
-            height: 44px;
+        .icon {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background-color: #45679a;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
             flex-shrink: 0;
         }
 
-        .instruction-text {
+        .text {
             font-size: 14px;
             color: #333;
+            line-height: 1.4;
         }
 
-        .skip-btn {
+        .btn {
             display: block;
             width: 100%;
-            padding: 15px;
-            background-color: #45679a;
-            color: white;
-            border: 2px solid #000;
-            border-radius: 60px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 40px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
             margin-top: 20px;
             text-transform: uppercase;
             transition: all 0.2s ease;
+            border: 2px solid #000;
+            background-color: #45679a;
+            color: white;
         }
 
-        .skip-btn:hover {
+        .btn:hover {
             background-color: #3f5981;
             transform: translateY(-2px);
             box-shadow: 0 4px 0 #000;
@@ -251,44 +101,28 @@
 
 <body>
     <div class="container">
-        <div class="iphone-frame">
-            <div class="iphone-screen" id="mapScreen">
-                <div class="map-overlay"></div>
-
-                <!-- Кнопка возврата на карту -->
-                <a href="map.html" class="back-to-map">←</a>
-
-                <div class="top-right-icons">
-                    <div class="icon-btn" onclick="location.href='map.html'">😼</div>
-                </div>
-
-                <div class="bottom-right-icon" onclick="location.href='settings.html'">⚙️</div>
-
-                <!-- Содержимое инструкции -->
-                <div class="instruction-content">
-                    <div class="instruction-title">Как пользоваться</div>
-                    
-                    <div class="instruction-item">
-                        <div class="instruction-icon">🍔</div>
-                        <div class="instruction-text">Меню для построения безопасного маршрута</div>
-                    </div>
-
-                    <div class="instruction-item">
-                        <div class="instruction-icon">👤</div>
-                        <div class="instruction-text">Добавление друзей для наблюдения</div>
-                    </div>
-
-                    <div class="instruction-item">
-                        <div class="instruction-icon">⚙️</div>
-                        <div class="instruction-text">Настройки и чёрный список</div>
-                    </div>
-
-                    <!-- Кнопка перехода на карту -->
-                    <button class="skip-btn" onclick="location.href='map.html'">
-                        Перейти к карте
-                    </button>
-                </div>
+        <div class="instruction-card">
+            <div class="title">Инструкция</div>
+            
+            <div class="instruction-item">
+                <div class="icon">🍔</div>
+                <div class="text">Меню для построения безопасного маршрута. Учитывает освещение, погоду и отзывы.</div>
             </div>
+
+            <div class="instruction-item">
+                <div class="icon">👤</div>
+                <div class="text">Добавление друзей для наблюдения. Они увидят ваш маршрут.</div>
+            </div>
+
+            <div class="instruction-item">
+                <div class="icon">⚙️</div>
+                <div class="text">Настройки и чёрный список. Заблокируйте нежелательных наблюдателей.</div>
+            </div>
+
+            <!-- КНОПКА ВОЗВРАТА НА КАРТУ -->
+            <button class="btn" onclick="location.href='map.html'">
+                Перейти к карте
+            </button>
         </div>
     </div>
 </body>
