@@ -400,7 +400,7 @@
             transform: scale(0.95);
         }
     </style>
-    <script src="https://api-maps.yandex.ru/v3/?apikey=ВАШ_КЛЮЧ_API&lang=ru_RU" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=985a7e68-8ff9-4339-a7f8-2002f5645e3a&lang=ru_RU" type="text/javascript"></script>
 </head>
 
 <body>
@@ -411,7 +411,7 @@
             </div>
             <div class="popup-buttons" style="display: flex; gap: 15px;">
                 <button onclick="showIntroText()" class="popup-btn popup-btn-confirm" style="flex: 1;">Да</button>
-                <button onclick="goToMainApp()" class="popup-btn popup-btn-cancel" style="flex: 1;">Нет</button>
+                <button onclick="goToMap()" class="popup-btn popup-btn-cancel" style="flex: 1;">Нет</button>
             </div>
         </div>
 
@@ -454,7 +454,7 @@
 
         <div id="floatingTooltip" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: none;"></div>
 
-        <button id="continueBtn" onclick="goToMainApp()" class="btn btn-primary"
+        <button id="continueBtn" onclick="goToMap()" class="btn btn-primary"
             style="margin-top: 20px; display: none;">Завершить инструкцию</button>
     </div>
 
@@ -475,8 +475,9 @@
             setTimeout(showFriendTooltip, 500);
         }
 
-        function goToMainApp() {
-            window.location.href = 'main.html';
+        // ИСПРАВЛЕНО: теперь ведёт на map.html
+        function goToMap() {
+            window.location.href = 'map.html';
         }
 
         function showFriendTooltip() {
@@ -538,7 +539,7 @@
             } else if (iconType === 'burger') {
                 infoDiv.innerHTML = `
                     <p>Меню</p>
-                    <p>Повзоляет выстраивать маршрут от пункта А до пункта Б.</p>
+                    <p>Позволяет выстраивать маршрут от пункта А до пункта Б.</p>
                     <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
                 `;
             }

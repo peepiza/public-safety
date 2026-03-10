@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>приложение "Аркадий-паровозов"</title>
+    <title>Приложение "Аркадий-паровозов" - Вход</title>
     <style>
         * {
             margin: 0;
@@ -22,20 +22,36 @@
             padding: 20px;
         }
 
-        .card {
-            background-color: white;
+        .container {
             max-width: 400px;
             width: 100%;
-            padding: 340px 60px;
+            position: relative;
+        }
+
+        .card {
+            background-color: white;
+            width: 100%;
+            padding: 40px 30px;
             border-radius: 60px;
             border: 3px solid #000;
             text-align: center;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-title {
+            color: #000;
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.2;
         }
 
         .btn {
             display: block;
             width: 100%;
-            padding: 10px 20px;
+            padding: 15px 20px;
             border: none;
             border-radius: 40px;
             font-size: 18px;
@@ -54,44 +70,113 @@
         .btn-primary {
             background-color: #45679a;
             color: white;
-            border: 2px solid #000000;
+            border: 2px solid #000;
         }
 
         .btn-primary:hover {
             background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
+            transform: translateY(-2px);
+            box-shadow: 0 4px 0 #000;
         }
 
         .btn-primary:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000000;
+            transform: translateY(2px);
+            box-shadow: 0 0 0 #000;
         }
 
         .btn-secondary {
-            background-color: #45679a;
-            color: white;
-            border: 2px solid #000000;
+            background-color: #c1c5cd;
+            color: #000;
+            border: 2px solid #000;
         }
 
         .btn-secondary:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000;
+            background-color: #a5a9b1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 0 #000;
         }
 
-        .btn-secondary:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-label {
+            display: block;
+            color: #000;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border: 3px solid #45679a;
+            border-radius: 60px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: #2d4a7a;
+        }
+
+        .register-link {
+            margin-top: 20px;
+            color: #45679a;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .register-link:hover {
+            color: #2d4a7a;
         }
     </style>
 </head>
 
 <body>
-    <div class="card">
-        <button onclick="location.href='openAc.html'" class="btn btn-primary">Войти в аккаунт</button>
-        <button onclick="location.href='register.html'" class="btn btn-secondary">Регистрация</button>
+    <div class="container">
+        <div class="card">
+            <div class="app-title">Аркадий Паровозов</div>
+            
+            <div class="input-group">
+                <label class="input-label">Телефон или email</label>
+                <input type="text" class="input-field" id="login" placeholder="+7 (999) 123-45-67">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Пароль</label>
+                <input type="password" class="input-field" id="password" placeholder="••••••••">
+            </div>
+
+            <!-- ИСПРАВЛЕНО: ведёт на карту, а не на инструкцию -->
+            <button class="btn btn-primary" onclick="login()">Войти</button>
+            <button class="btn btn-secondary" onclick="location.href='register.html'">Регистрация</button>
+            
+            <div class="register-link" onclick="location.href='instra.html'">
+                Инструкция по приложению
+            </div>
+        </div>
     </div>
+
+    <script>
+        function login() {
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            
+            if (!login || !password) {
+                alert('Заполните все поля!');
+                return;
+            }
+            
+            // Здесь будет логика проверки логина/пароля
+            // Пока просто переходим на карту
+            window.location.href = 'map.html';
+        }
+    </script>
 </body>
 
 </html>
