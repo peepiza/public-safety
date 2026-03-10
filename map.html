@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аркадий Паровозов - Карта</title>
+    
+    <script src="https://api-maps.yandex.ru/v3/?apikey=985a7e68-8ff9-4339-a7f8-2002f5645e3a&lang=ru_RU" type="text/javascript"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .iphone-frame {
+            background-color: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin: 0 auto;
+            max-width: 380px;
+            border: 3px solid #000;
+        }
+
+        .iphone-screen {
+            background-color: #e5e5e5;
+            border-radius: 30px;
+            overflow: hidden;
+            aspect-ratio: 9/19;
+            position: relative;
+        }
+
+        /* Контейнер для карты */
+        #map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Стили для элементов поверх карты */
+        .top-left-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .top-right-icons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #bdb7b7;
+            cursor: pointer;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+            background-color: #45679a;
+            border: none;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.55);
+        }
+
+        .bottom-right-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #bdb7b7;
+            cursor: pointer;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 100;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-right-icon:hover {
+            transform: scale(1.1);
+            background-color: #45679a;
+            border: none;
+        }
+
+        .bottom-right-icon:active {
+            transform: scale(0.55);
+        }
+
+        .burger-menu {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #bdb7b7;
+            cursor: pointer;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .burger-menu:hover {
+            transform: scale(1.1);
+            background-color: #45679a;
+            border: none;
+        }
+
+        .burger-menu:active {
+            transform: scale(0.55);
+        }
+
+        .burger-line {
+            width: 20px;
+            height: 3px;
+            background-color: #000;
+            border-radius: 3px;
+        }
+
+        /* Информационное сообщение о геолокации */
+        .geo-message {
+            position: absolute;
+            bottom: 80px;
+            left: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 20px;
+            border: 2px solid #45679a;
+            font-size: 12px;
+            text-align: center;
+            z-index: 200;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+        }
+        
+        .geo-message.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="iphone-frame">
+            <div class="iphone-screen" id="mapScreen">
+                <!-- Контейнер для карты (будет заполнен API) -->
+                <div id="map-container"></div>
+                
+                <!-- Элементы интерфейса поверх карты -->
+                <div class="top-left-icons">
+                    <div class="burger-menu" onclick="location.href='humburger.html'">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </div>
+                </div>
+
+                <div class="top-right-icons">
+                    <div class="icon-btn" id="friendIcon" onclick="addFriend()">
+                        😼
+                    </div>
+                </div>
+
+                <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='settings.html'">
+                    ⚙️
+                </div>
+                
+                <!-- Сообщение о статусе геолокации -->
+                <div id="geoMessage" class="geo-message">
+                    Определяем ваше местоположение...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Глобальная переменная для карты
+        let map;
+        let userPlacemark;
+        
+        // Функция показа сообщения
+        function showGeoMessage(text, isError = false) {
+            const message = document.getElementById('geoMessage');
+            message.textContent = text;
+            message.style.backgroundColor = isError ? '#ffebee' : 'white';
+            message.style.borderColor = isError ? '#f44336' : '#45679a';
+            message.classList.add('show');
+            
+            // Автоматически скрываем через 3 секунды
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Инициализация карты после загрузки API
+        function initMap() {
+            // Координаты центра России (Москва) как запасной вариант
+            const defaultCenter = [55.76, 37.64];
+            
+            // Создаем карту
+            map = new ymaps.Map('map-container', {
+                center: defaultCenter,
+                zoom: 15,
+                controls: ['zoomControl'] // Добавляем кнопки зума
+            });
+            
+            // Пытаемся получить геолокацию
+            if (navigator.geolocation) {
+                showGeoMessage('Запрашиваем доступ к геолокации...');
+                
+                navigator.geolocation.getCurrentPosition(
+                    // Успех
+                    function(position) {
+                        const userCoords = [position.coords.latitude, position.coords.longitude];
+                        
+                        // Перемещаем карту к пользователю
+                        map.setCenter(userCoords, 16);
+                        
+                        // Удаляем старую метку если была
+                        if (userPlacemark) {
+                            map.geoObjects.remove(userPlacemark);
+                        }
+                        
+                        // Создаем красивую метку пользователя
+                        userPlacemark = new ymaps.Placemark(userCoords, {
+                            hintContent: 'Вы здесь',
+                            balloonContent: 'Ваше текущее местоположение'
+                        }, {
+                            preset: 'islands#blueCircleDotIcon',
+                            iconColor: '#45679a'
+                        });
+                        
+                        map.geoObjects.add(userPlacemark);
+                        
+                        showGeoMessage('✅ Местоположение определено');
+                        
+                        // Здесь можно добавить вызов функции для расчета безопасных маршрутов
+                        // calculateSafeRoutes(userCoords);
+                    },
+                    // Ошибка
+                    function(error) {
+                        let errorText = 'Ошибка геолокации: ';
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorText += 'Вы запретили доступ к геолокации';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorText += 'Информация о местоположении недоступна';
+                                break;
+                            case error.TIMEOUT:
+                                errorText += 'Время ожидания истекло';
+                                break;
+                            default:
+                                errorText += 'Неизвестная ошибка';
+                        }
+                        showGeoMessage('❌ ' + errorText, true);
+                        console.error(errorText);
+                    }
+                );
+            } else {
+                showGeoMessage('❌ Браузер не поддерживает геолокацию', true);
+            }
+            
+            // Добавляем обработчик клика по карте для тестирования
+            map.events.add('click', function(e) {
+                const coords = e.get('coords');
+                console.log('Координаты клика:', coords);
+                // Здесь можно добавить логику для построения маршрута
+            });
+        }
+        
+        // Функция для добавления друга (заглушка)
+        function addFriend() {
+            showGeoMessage('🔜 Функция добавления друга в разработке');
+            // Здесь будет переход на страницу добавления друга
+            // location.href = 'add-friend.html';
+        }
+        
+        // Ждем загрузки API и запускаем инициализацию
+        ymaps.ready(initMap);
+        
+        // Дополнительная функция для построения маршрута (будет использоваться из humburger.html)
+        function buildRoute(from, to) {
+            if (!map) {
+                showGeoMessage('Карта еще не загружена', true);
+                return;
+            }
+            
+            showGeoMessage('Строим безопасный маршрут...');
+            
+            // Здесь будет логика построения маршрута через API Яндекс.Карт
+            // и расчета коэффициента безопасности
+            
+            ymaps.route([from, to], {
+                mapStateAutoApply: true
+            }).then(function(route) {
+                map.geoObjects.add(route);
+                showGeoMessage('✅ Маршрут построен');
+                
+                // Здесь можно добавить раскраску сегментов по безопасности
+                // и отправку маршрута наблюдателю
+            }, function(error) {
+                showGeoMessage('❌ Ошибка построения маршрута', true);
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+
+</html>
