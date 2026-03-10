@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!registerCard) { return; }
 
-    const registerButton = registerCard.querySelector('.btn-primary');
+    const registerButton = registerCard.querySelector('#register-button');
 
     if (registerButton) {
         registerButton.addEventListener('click', function (event) {
@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     birthDate: dateValue,
                     password: passwordValue,
                     registeredAt: new Date().toISOString(),
+                    avatar: '😼'
                 };
 
                 localStorage.setItem('currentUser', JSON.stringify(userData));
