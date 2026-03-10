@@ -237,7 +237,7 @@
             <div class="popup-text">Приложению нужен доступ к вашим контактам</div>
             <div class="popup-small">обязательно подтверждение</div>
             <div class="popup-buttons">
-                <button onclick="location.href='woof/instra.html'" onclick="handlePermission(true, 3)" class="popup-btn popup-btn-confirm">Подтвердить</button>
+                <button onclick="location.href='../woof/instra.html'" onclick="handlePermission(true, 3)" class="popup-btn popup-btn-confirm">Подтвердить</button>
                 <button onclick="handlePermission(false, 3)" class="popup-btn popup-btn-cancel">Отмена</button>
             </div>
         </div>
@@ -262,7 +262,7 @@
         
         function handlePermission(confirmed, popupNumber) {
             if (!confirmed) {
-                window.location.href = 'woof/register.html';
+                window.location.href = '../woof/register.html';
                 return;
                 }
                 if (popupNumber < 3) {

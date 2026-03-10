@@ -26,8 +26,8 @@
             background-color: white;
             max-width: 400px;
             width: 100%;
-            padding: 190px 30px;
-            border-radius: 30px;
+            padding: 220px 30px;
+            border-radius: 50px;
             border: 3px solid #000;
         }
 
@@ -62,6 +62,7 @@
         button {
             width: 100%;
             padding: 15px;
+
             background-color: #45679a;
             color: white;
             border: 2px solid #000;
@@ -78,8 +79,15 @@
             box-shadow: 0 2px 0 #000000
         }
 
+        .back-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            
+        }
+
         .back-btn {
-            display: block;
+            position: absolute;
             width: 60px;
             height: 60px;
             background-color: #c1c5cd;
@@ -90,7 +98,17 @@
             color: white;
             font-size: 30px;
             text-decoration: none;
-            margin-left: auto;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #45679a;
+            transform: translateY(-1px);
+        }
+
+        .back-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 0 0 #000;
         }
     </style>
 </head>
@@ -106,7 +124,7 @@
 
         <button id="logoutBtn">Выйти</button>
 
-        <a href="woof/settings.html" class="back-btn">←</a>
+        <a href="../woof/settings.html" class="back-btn">←</a>
     </div>
 
     <script src="../meow/account.js"></script>
