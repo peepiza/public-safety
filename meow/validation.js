@@ -19,8 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (nameValue === "") {
                 showError(nameInput, 'Введите никнейм');
                 isValid = false;
-            } else if (nameValue.split(' ').filter(word => word.length > 0).length < 2) {
-                showError(nameInput, 'Введите имя и фамилию');
+            } else if (nameValue.length < 3) {
+                showError(nameInput, 'Никнейм должен быть минимум 3 символа');
+                isValid = false;
+            } else if (nameValue.length > 20) {
+                showError(nameInput, 'Никнейм не должен превышать 20 символов');
+                isValid = false;
+            } else if (!/^[a-zA-Z0-9а-яА-ЯёЁ]+$/.test(nameValue)) {
+                showError(nameInput, 'Никнейм может содержать только буквы и цифры');
                 isValid = false;
             }
 
@@ -77,8 +83,19 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (passwordValue.length < 6) {
                 showError(passwordInput, 'Пароль должен быть минимум 6 символов');
                 isValid = false;
+            } else if (passwordValue.length > 30) {
+                showError(passwordInput, 'Пароль не должен превышать 30 символов');
+                isValid = false;
+            } else if (!/[A-Z]/.test(passwordValue)) {
+                showError(passwordInput, 'Пароль должен содержать хотя бы одну заглавную букву');
+                isValid = false;
+            } else if (!/[a-z]/.test(passwordValue)) {
+                showError(passwordInput, 'Пароль должен содержать хотя бы одну строчную букву');
+                isValid = false;
+            } else if (!/[0-9]/.test(passwordValue)) {
+                showError(passwordInput, 'Пароль должен содержать хотя бы одну цифру');
+                isValid = false;
             }
-
 
             const passwordConfirmInput = document.getElementById('sec-password-input');
             const passwordConfirmValue = passwordConfirmInput.value.trim();
