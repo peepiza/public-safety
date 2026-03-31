@@ -146,12 +146,191 @@
             <input type="password" id="sec-password-input" placeholder="••••••••">
         </div>
 
-        <button id="register-button" class="btn btn-primary">Зарегистрироваться</button>
+        <button id="register-button" class="btn btn-primary">Создать</button>
 
         <a href="../index.html" class="back-link">← Назад</a>
     </div>
-    <script src="../meow/calculate.js"></script>
-    <script src="../meow/validation.js"></script> 
-</body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const registerButton = document.getElementById('register-button');
+            const API_URL = 'http://localhost:3000/api';
 
-</html>
+            if (registerButton) {
+                registerButton.addEventListener('click', async function (event) {
+                    event.preventDefault();
+
+                    clearOldErrors();
+
+                    let isValid = true;
+
+                    const nameInput = document.getElementById('name-input');
+                    const nameValue = nameInput.value.trim();
+
+                    if (nameValue === "") {
+                        showError(nameInput, 'Введите никнейм');
+                        isValid = false;
+                    } else if (nameValue.length < 3) {
+                        showError(nameInput, 'Никнейм должен быть минимум 3 символа');
+                        isValid = false;
+                    } else if (nameValue.length > 20) {
+                        showError(nameInput, 'Никнейм не должен превышать 20 символов');
+                        isValid = false;
+                    } else if (!/^[a-zA-Z0-9а-яА-ЯёЁ]+$/.test(nameValue)) {
+                        showError(nameInput, 'Никнейм может содержать только буквы и цифры');
+                        isValid = false;
+                    }
+
+                    const numberInput = document.getElementById('number-input');
+                    const numberValue = numberInput.value.trim();
+
+                    if (!numberValue) {
+                        showError(numberInput, 'Введите номер телефона');
+                        isValid = false;
+                    } else {
+                        const digitsOnly = numberValue.replace(/\D/g, '');
+
+                        if (digitsOnly.length !== 11) {
+                            showError(numberInput, 'Номер должен содержать 11 цифр');
+                            isValid = false;
+                        } else if (!digitsOnly.startsWith('7') && !digitsOnly.startsWith('8')) {
+                            showError(numberInput, 'Номер должен начинаться с 7 или 8');
+                            isValid = false;
+                        }
+                    }
+
+                    const dateInput = document.getElementById('data-input');
+                    const dateValue = dateInput.value;
+
+                    if (!dateValue) {
+                        showError(dateInput, 'Выберите дату рождения');
+                        isValid = false;
+                    } else {
+                        const birthDate = new Date(dateValue);
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        birthDate.setHours(0, 0, 0, 0);
+
+                        if (birthDate > today) {
+                            showError(dateInput, 'Дата рождения не может быть в будущем');
+                            isValid = false;
+                        }
+                    }
+
+                    const passwordInput = document.getElementById('password-input');
+                    const passwordValue = passwordInput.value.trim();
+
+                    if (passwordValue === "") {
+                        showError(passwordInput, 'Введите пароль');
+                        isValid = false;
+                    } else if (passwordValue.length < 6) {
+                        showError(passwordInput, 'Пароль должен быть минимум 6 символов');
+                        isValid = false;
+                    } else if (passwordValue.length > 30) {
+                        showError(passwordInput, 'Пароль не должен превышать 30 символов');
+                        isValid = false;
+                    } else if (!/[A-Z]/.test(passwordValue)) {
+                        showError(passwordInput, 'Пароль должен содержать хотя бы одну заглавную букву');
+                        isValid = false;
+                    } else if (!/[a-z]/.test(passwordValue)) {
+                        showError(passwordInput, 'Пароль должен содержать хотя бы одну строчную букву');
+                        isValid = false;
+                    } else if (!/[0-9]/.test(passwordValue)) {
+                        showError(passwordInput, 'Пароль должен содержать хотя бы одну цифру');
+                        isValid = false;
+                    }
+
+                    const passwordConfirmInput = document.getElementById('sec-password-input');
+                    const passwordConfirmValue = passwordConfirmInput.value.trim();
+
+                    if (passwordValue !== passwordConfirmValue) {
+                        showError(passwordConfirmInput, 'Пароли не совпадают');
+                        isValid = false;
+                    }
+
+                    if (isValid) {
+                        try {
+                            const response = await fetch(`${API_URL}/auth/register`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    name: nameValue,
+                                    phone: numberValue,
+                                    birthDate: dateValue,
+                                    password: passwordValue,
+                                    confirmPassword: passwordConfirmValue
+                                })
+                            });
+
+                            const result = await response.json();
+
+                            if (result.success) {
+                                localStorage.setItem('currentUser', JSON.stringify(result.user));
+
+                                alert('Регистрация прошла успешно!');
+                                window.location.href = 'agreement.html';
+                            } else {
+                                if (result.errors) {
+                                    result.errors.forEach(error => {
+                                        const input = getInputByName(error.param);
+                                        if (input) {
+                                            showError(input, error.msg);
+                                        }
+                                    });
+                                } else {
+                                    alert(result.message || 'Ошибка при регистрации');
+                                }
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('Ошибка подключения к серверу. Убедитесь, что сервер запущен.');
+                        }
+                    }
+                });
+            }
+
+            function getInputByName(fieldName) {
+                const mapping = {
+                    'name': 'name-input',
+                    'phone': 'number-input',
+                    'birthDate': 'data-input',
+                    'password': 'password-input',
+                    'confirmPassword': 'sec-password-input'
+                };
+
+                const id = mapping[fieldName];
+                return id ? document.getElementById(id) : null;
+            }
+
+            function showError(input, message) {
+                input.style.border = '2px solid #ff3860';
+
+                const inputGroup = input.closest('.input-group');
+                if (inputGroup) {
+                    const oldError = inputGroup.querySelector('.error-message');
+                    if (oldError) oldError.remove();
+
+                    const errorMsg = document.createElement('small');
+                    errorMsg.classList.add('error-message');
+                    errorMsg.style.color = '#ff3860';
+                    errorMsg.style.fontSize = '12px';
+                    errorMsg.style.marginLeft = '15px';
+                    errorMsg.style.marginTop = '5px';
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = message;
+                    inputGroup.appendChild(errorMsg);
+                }
+            }
+
+            function clearOldErrors() {
+                document.querySelectorAll('.input-group input').forEach(input => {
+                    input.style.border = '';
+                });
+                document.querySelectorAll('.error-message').forEach(el => el.remove());
+            }
+        });
+    </script>
+</body >
+
+</html >
