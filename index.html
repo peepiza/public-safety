@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приложение "Аркадий-паровозов"</title>
     <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" sizes="167x167" href="/icons/launchericon-144x144.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/launchericon-192x192.png">
     <style>
         * {
             margin: 0;
@@ -109,7 +111,7 @@
     <div class="install-container" id="installContainer">
         <button id="installBtn" class="install-btn">Установить приложение</button>
     </div>
-    
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {

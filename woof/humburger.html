@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Безопасный маршрут - Карта</title>
+    <title>Аркадий Паровозов</title>
     <link rel="apple-touch-icon" href="/icons/launchericon-192x192.png">
     <link rel="shortcut icon" href="/icons/launchericon-48x48.png">
     <script src="https://api-maps.yandex.ru/2.1/?apikey=31fb7683-a395-48c6-ac18-eea830f723b0&lang=ru_RU" type="text/javascript"></script>
@@ -262,7 +262,7 @@
             padding: 20px;
             border-radius: 20px;
             border: 3px solid #45679a;
-            max-width: 250px;
+            max-width: 280px;
             text-align: center;
             z-index: 20;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -271,17 +271,17 @@
         .info-card p {
             color: #000;
             margin-bottom: 15px;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .close-info {
             background-color: #45679a;
             color: white;
             border: 2px solid #000;
-            padding: 10px 30px;
+            padding: 8px 20px;
             border-radius: 60px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
         }
 
@@ -295,7 +295,7 @@
             z-index: 20;
         }
 
-        #infoContainer > * {
+        #infoContainer>* {
             pointer-events: auto;
         }
     </style>
@@ -303,7 +303,7 @@
 
 <body>
     <div id="map-container"></div>
-    
+
     <div class="overlay" id="overlay" onclick="closeRouteWindow()"></div>
 
     <div class="top-left-icons">
@@ -323,7 +323,7 @@
     <div class="route-window" id="routeWindow">
         <div class="close-icon" onclick="closeRouteWindow()">×</div>
         <div class="route-title">Построить маршрут</div>
-        
+
         <div class="route-input-group">
             <div class="route-label">Точка А (начало)</div>
             <input type="text" class="route-input" id="pointA" placeholder="например: Тверская ул., 7">
@@ -345,12 +345,13 @@
     <script>
         let map;
         let userLocation;
+        let currentRoute = null;
 
         ymaps.ready(initMap);
 
         function initMap() {
             const defaultCoords = [55.76, 37.64];
-            
+
             map = new ymaps.Map('map-container', {
                 center: defaultCoords,
                 zoom: 12,
@@ -362,7 +363,7 @@
                     function(position) {
                         const userCoords = [position.coords.latitude, position.coords.longitude];
                         map.setCenter(userCoords, 15);
-                        
+
                         const placemark = new ymaps.Placemark(userCoords, {
                             hintContent: 'Вы здесь'
                         }, {
@@ -383,10 +384,10 @@
             const window = document.getElementById('routeWindow');
             const burger = document.getElementById('burgerMenu');
             const overlay = document.getElementById('overlay');
-            
+
             window.classList.toggle('active');
             burger.classList.toggle('active');
-            
+
             if (window.classList.contains('active')) {
                 overlay.classList.add('active');
             } else {
@@ -399,7 +400,7 @@
             const window = document.getElementById('routeWindow');
             const burger = document.getElementById('burgerMenu');
             const overlay = document.getElementById('overlay');
-            
+
             window.classList.remove('active');
             burger.classList.remove('active');
             overlay.classList.remove('active');
@@ -411,20 +412,104 @@
             document.getElementById('pointB').value = '';
         }
 
-        function buildRoute() {
+        async function geocodeAddress(address) {
+            try {
+                const response = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=31fb7683-a395-48c6-ac18-eea830f723b0&geocode=${encodeURIComponent(address)}&format=json`);
+                const data = await response.json();
+                const featureMember = data.response.GeoObjectCollection.featureMember[0];
+                if (!featureMember) return null;
+                const point = featureMember.GeoObject.Point.pos.split(' ');
+                return {
+                    lat: parseFloat(point[1]),
+                    lng: parseFloat(point[0])
+                };
+            } catch (error) {
+                console.error('Ошибка геокодирования:', error);
+                return null;
+            }
+        }
+
+        async function buildRoute() {
             const pointA = document.getElementById('pointA').value.trim();
             const pointB = document.getElementById('pointB').value.trim();
-            
+
             if (!pointA || !pointB) {
                 showMessage('Заполните оба поля');
                 return;
             }
-            
-            showMessage(`Маршрут строится: ${pointA} → ${pointB}`);
+
+            showMessage('Поиск адресов...');
+
+            try {
+                const startCoords = await geocodeAddress(pointA);
+                const endCoords = await geocodeAddress(pointB);
+
+                if (!startCoords || !endCoords) {
+                    showMessage('Не удалось найти указанные адреса');
+                    return;
+                }
+
+                showMessage('Строим маршрут...');
+
+                if (currentRoute) {
+                    map.geoObjects.remove(currentRoute);
+                }
+
+                const multiRoute = new ymaps.multiRouter.MultiRoute({
+                    referencePoints: [
+                        [startCoords.lat, startCoords.lng],
+                        [endCoords.lat, endCoords.lng]
+                    ],
+                    params: {
+                        routingMode: 'pedestrian'
+                    }
+                }, {
+                    boundsAutoApply: true,
+                    zoomMargin: 50,
+                    routeStrokeColor: '#45679a',
+                    routeStrokeWidth: 5,
+                    routeStrokeOpacity: 0.8
+                });
+
+                map.geoObjects.add(multiRoute);
+                currentRoute = multiRoute;
+
+                multiRoute.model.events.add('requestsuccess', function() {
+                    const activeRoute = multiRoute.getActiveRoute();
+                    if (activeRoute) {
+                        const distance = activeRoute.getLength();
+                        const duration = activeRoute.getDuration();
                         
-            setTimeout(() => {
+                        let distanceText = '';
+                        if (distance > 1000) {
+                            distanceText = `${(distance / 1000).toFixed(1)} км`;
+                        } else {
+                            distanceText = `${Math.round(distance)} м`;
+                        }
+
+                        let durationText = '';
+                        if (duration > 3600) {
+                            durationText = `${Math.floor(duration / 3600)} ч ${Math.floor((duration % 3600) / 60)} мин`;
+                        } else {
+                            durationText = `${Math.floor(duration / 60)} мин`;
+                        }
+
+                        showMessage(`Маршрут построен! Расстояние: ${distanceText}, Время: ${durationText}`);
+                    } else {
+                        showMessage(`Маршрут построен!`);
+                    }
+                });
+
+                multiRoute.model.events.add('requestfail', function() {
+                    showMessage('Не удалось построить маршрут');
+                });
+
                 closeRouteWindow();
-            }, 1500);
+
+            } catch (error) {
+                console.error('Ошибка построения маршрута:', error);
+                showMessage('Не удалось построить маршрут. Попробуйте другие адреса.');
+            }
         }
 
         function showFriendMessage() {
@@ -448,7 +533,7 @@
                 if (infoDiv.parentElement) {
                     infoDiv.remove();
                 }
-            }, 3000);
+            }, 5000);
         }
 
         document.addEventListener('keydown', function(e) {
@@ -458,4 +543,5 @@
         });
     </script>
 </body>
+
 </html>
