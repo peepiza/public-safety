@@ -3,195 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Приложение "Аркадий-паровозов"</title>
+    <link rel="apple-touch-icon" href="/icons/launchericon-192x192.png">
+    <link rel="shortcut icon" href="/icons/launchericon-48x48.png">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: white;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .card {
-            background-color: white;
-            max-width: 400px;
+            margin: 0;
+            padding: 0;
             width: 100%;
-            padding: 310px 60px;
-            border-radius: 60px;
-            border: 3px solid #000;
-            text-align: center;
-        }
-
-        .app-title {
-            color: #000;
-            font-size: 30px;
-            font-weight: 800;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            line-height: 1.2;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 5px 20px;
-            border: none;
-            border-radius: 40px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
-        }
-
-        .btn:last-child {
-            margin-bottom: 0;
-        }
-
-        .btn-primary {
-            background-color: #c1c5cd;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-primary:hover {
-            background-color: #45679a;
-            transform: translateY(-1px);
-        }
-
-        .btn-primary:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .popup {
-            background-color: white;
-            max-width: 350px;
-            width: 90%;
-            padding: 30px 25px;
-            border-radius: 30px;
-            border: 3px solid #000;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            animation: popupAppear 0.3s ease;
-        }
-
-        @keyframes popupAppear {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .popup-title {
-            color: #000;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .popup-text {
-            color: #333;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .popup-btn {
-            flex: 1;
-            padding: 4px 10px;
-            border: none;
-            border-radius: 60px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
-            border: 2px solid #000;
-        }
-
-        .popup-btn-confirm {
-            background-color: #45679a;
-            color: white;
-            border: 2px solid #000000;
-        }
-
-        .popup-btn-confirm:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
-        }
-
-        .popup-btn-confirm:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
-        }
-
-        .popup-btn-cancel {
-            background-color: #45679a;
-            color: white;
-            border: 2px solid #000;
-        }
-
-        .popup-btn-cancel:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000
-        }
-
-        .popup-btn-cancel:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
-        }
-
-        .iphone-frame {
-            background-color: #111;
-            border-radius: 40px;
-            padding: 10px;
-            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-            margin: 0 auto;
-            max-width: 380px;
-            border: 3px solid #000;
-        }
-
-        .iphone-screen {
-            background-color: #fff;
-            border-radius: 30px;
+            height: 100vh;
             overflow: hidden;
-            aspect-ratio: 9/19;
-            position: relative;
+            background-color: #e5e5e5;
         }
 
         #map-container {
@@ -199,17 +28,6 @@
             height: 100%;
             position: relative;
             z-index: 1;
-        }
-
-        .map-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.1);
-            z-index: 2;
-            pointer-events: none;
         }
 
         .top-left-icons {
@@ -250,10 +68,6 @@
             border: none;
         }
 
-        .icon-btn:active {
-            transform: scale(0.55);
-        }
-
         .burger-menu {
             width: 44px;
             height: 44px;
@@ -276,10 +90,6 @@
             border: none;
         }
 
-        .burger-menu:active {
-            transform: scale(0.55);
-        }
-
         .burger-line {
             width: 20px;
             height: 3px;
@@ -289,7 +99,7 @@
 
         .bottom-right-icon {
             position: absolute;
-            bottom: 20px;
+            bottom: 110px;
             right: 20px;
             width: 44px;
             height: 44px;
@@ -302,7 +112,7 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            z-index: 10;
+            z-index: 100;
             transition: all 0.2s ease;
         }
 
@@ -310,10 +120,6 @@
             transform: scale(1.1);
             background-color: #45679a;
             border: none;
-        }
-
-        .bottom-right-icon:active {
-            transform: scale(0.55);
         }
 
         .tooltip {
@@ -404,8 +210,92 @@
             box-shadow: 0 2px 0 #000000
         }
 
-        .close-info:active {
-            transform: scale(0.95);
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: white;
+            max-width: 350px;
+            width: 90%;
+            padding: 30px 25px;
+            border-radius: 30px;
+            border: 3px solid #000;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: popupAppear 0.3s ease;
+        }
+
+        @keyframes popupAppear {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-title {
+            color: #000;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .popup-text {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .popup-btn {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid #000;
+        }
+
+        .popup-btn-confirm {
+            background-color: #45679a;
+            color: white;
+        }
+
+        .popup-btn-confirm:hover {
+            background-color: #3f5981;
+            transform: translateY(-1px);
+        }
+
+        .popup-btn-cancel {
+            background-color: #c1c5cd;
+            color: white;
+        }
+
+        .popup-btn-cancel:hover {
+            background-color: #a0a4ab;
+            transform: translateY(-1px);
         }
 
         #floatingTooltip {
@@ -415,19 +305,49 @@
             z-index: 10000;
             display: none;
         }
+
+
+        .close-tutorial-btn {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 44px;
+            background-color: #6c757d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid white;
+        }
+
+        .close-tutorial-btn:hover {
+            background-color: #5a6268;
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        .close-tutorial-btn span {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
     </style>
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=985a7e68-8ff9-4339-a7f8-2002f5645e3a&lang=ru_RU" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=31fb7683-a395-48c6-ac18-eea830f723b0&lang=ru_RU"
+        type="text/javascript"></script>
 </head>
 
 <body>
     <div id="overlay" class="overlay">
         <div id="questionPopup" class="popup">
-            <div class="popup-title">Интерактивная инструкция?</div>
-            <div class="popup-text" style="text-align: center;">Хотите посмотреть краткую инструкцию по приложению?
-            </div>
-            <div class="popup-buttons" style="display: flex; gap: 15px;">
-                <button onclick="showIntroText()" class="popup-btn popup-btn-confirm" style="flex: 1;">Да</button>
-                <button onclick="goToMainApp()" class="popup-btn popup-btn-cancel" style="flex: 1;">Нет</button>
+            <div class="popup-text">Хотите посмотреть краткую инструкцию по приложению?</div>
+            <div class="popup-buttons">
+                <button onclick="showIntroText()" class="popup-btn popup-btn-confirm">Да</button>
+                <button onclick="goToMainApp()" class="popup-btn popup-btn-cancel">Нет</button>
             </div>
         </div>
 
@@ -436,51 +356,76 @@
             <div class="popup-text">
                 Нужно всегда быть начеку в наше время. Наше приложение предлагает систему быстрого оповещения и помощи.
                 Вы сможете делиться геопозицией с близкими, получать экстренные уведомления и быстро связываться со
-                службами спасения.
-                Вместе мы сделаем город безопаснее!
+                службами спасения. Вместе мы сделаем город безопаснее!
             </div>
-            <button onclick="showTutorial()" class="btn btn-primary" style="margin: 10px 0 0;">Дальше</button>
+            <button onclick="showTutorial()" class="popup-btn popup-btn-confirm"
+                style="margin-top: 10px;">Дальше</button>
         </div>
     </div>
 
-    <div id="mainScreen" style="display: none; width: 100%; max-width: 400px;">
-        <div class="iphone-frame">
-            <div class="iphone-screen" id="mapScreen">
-                <div id="map-container"></div>
-                <div class="map-overlay"></div>
+    <div id="mainScreen" style="display: none; width: 100%; height: 100%; position: relative;">
+        <div id="map-container"></div>
 
-                <div class="top-left-icons">
-                    <div class="burger-menu" onclick="showIconInfo('burger')">
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                    </div>
-                </div>
-
-                <div class="top-right-icons">
-                    <div class="icon-btn" id="friendIcon" onclick="showIconInfo('friend')">👤</div>
-                </div>
-
-                <div class="bottom-right-icon" id="settingsIcon" onclick="showIconInfo('settings')">⚙️</div>
-
-                <div id="tooltipContainer"></div>
-                <div id="infoContainer"></div>
+        <div class="top-left-icons">
+            <div class="burger-menu" onclick="showIconInfo('burger')">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
             </div>
         </div>
 
+        <div class="top-right-icons">
+            <div class="icon-btn" id="friendIcon" onclick="showIconInfo('friend')">😼</div>
+        </div>
+
+        <div class="bottom-right-icon" id="settingsIcon" onclick="showIconInfo('settings')">⚙️</div>
+
+        <div id="tooltipContainer"></div>
+        <div id="infoContainer"></div>
         <div id="floatingTooltip"></div>
 
-        <button id="continueBtn" onclick="goToMainApp()" class="btn btn-primary"
-            style="margin-top: 20px; display: none;">Завершить инструкцию</button>
+        <div id="closeTutorialBtn" class="close-tutorial-btn" style="display: none;" onclick="closeTutorial()">
+            <span>✕</span>
+        </div>
     </div>
 
     <script>
         let map;
         let userMarker;
 
-        function startAfterPermissions() {
-            document.getElementById('overlay').style.display = 'flex';
-            document.getElementById('questionPopup').style.display = 'block';
+        function initMap() {
+            const defaultCoords = [55.76, 37.64];
+
+            map = new ymaps.Map('map-container', {
+                center: defaultCoords,
+                zoom: 12,
+                controls: ['zoomControl']
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const userCoords = [position.coords.latitude, position.coords.longitude];
+                        map.setCenter(userCoords, 15);
+
+                        if (userMarker) {
+                            map.geoObjects.remove(userMarker);
+                        }
+
+                        userMarker = new ymaps.Placemark(userCoords, {
+                            hintContent: 'Вы здесь'
+                        }, {
+                            preset: 'islands#blueCircleDotIcon',
+                            iconColor: '#45679a'
+                        });
+
+                        map.geoObjects.add(userMarker);
+                    },
+                    function (error) {
+                        console.log('Геолокация не доступна');
+                    }
+                );
+            }
         }
 
         function showIntroText() {
@@ -491,7 +436,8 @@
         function showTutorial() {
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('mainScreen').style.display = 'block';
-            
+            document.getElementById('closeTutorialBtn').style.display = 'flex';
+
             setTimeout(() => {
                 initMap();
                 showFriendTooltip();
@@ -499,44 +445,22 @@
         }
 
         function goToMainApp() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('mainScreen').style.display = 'none';
             window.location.href = '../woof/map.html';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'block';
+
+            setTimeout(() => {
+                initMap();
+            }, 500);
         }
 
-        function initMap() {
-            const defaultCoords = [55.76, 37.64];
-            
-            map = new ymaps.Map('map-container', {
-                center: defaultCoords,
-                zoom: 12,
-                controls: ['zoomControl']
-            });
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        const userCoords = [position.coords.latitude, position.coords.longitude];
-                        map.setCenter(userCoords, 15);
-                        
-                        if (userMarker) {
-                            map.geoObjects.remove(userMarker);
-                        }
-                        
-                        userMarker = new ymaps.Placemark(userCoords, {
-                            hintContent: 'Вы здесь'
-                        }, {
-                            preset: 'islands#blueCircleDotIcon',
-                            iconColor: '#45679a'
-                        });
-                        
-                        map.geoObjects.add(userMarker);
-                    },
-                    function(error) {
-                        console.log('Геолокация не доступна');
-                    }
-                );
-            }
+        function closeTutorial() {
+            document.getElementById('closeTutorialBtn').style.display = 'none';
+            const tooltip = document.getElementById('floatingTooltip');
+            if (tooltip) tooltip.style.display = 'none';
+            const infoCard = document.querySelector('.info-card');
+            if (infoCard) infoCard.remove();
+            window.location.href = '../woof/map.html';
         }
 
         function showFriendTooltip() {
@@ -546,30 +470,9 @@
 
             const tooltip = document.createElement('div');
             tooltip.className = 'tooltip';
-            tooltip.style.position = 'relative';
-            tooltip.style.top = 'auto';
-            tooltip.style.right = 'auto';
-            tooltip.style.margin = '0';
             tooltip.textContent = 'Нажми на иконки, чтобы узнать их назначение';
 
             floatingTooltip.appendChild(tooltip);
-
-            if (!document.getElementById('tooltipStyle')) {
-                const style = document.createElement('style');
-                style.id = 'tooltipStyle';
-                style.textContent = `
-                    #floatingTooltip .tooltip::after {
-                        content: '';
-                        position: absolute;
-                        top: -10px;
-                        right: 20px;
-                        border-left: 10px solid transparent;
-                        border-right: 10px solid transparent;
-                        border-bottom: 10px solid #721E1E;
-                    }
-                `;
-                document.head.appendChild(style);
-            }
         }
 
         function showIconInfo(iconType) {
@@ -587,33 +490,30 @@
                 infoDiv.innerHTML = `
                     <p>Добавить друга</p>
                     <p>Позволяет добавить человека в список доверенных контактов. Вы сможете делиться с ним геопозицией и получать уведомления о его безопасности.</p>
-                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
+                    <button class="close-info" onclick="this.parentElement.remove();">Понятно</button>
                 `;
             } else if (iconType === 'settings') {
                 infoDiv.innerHTML = `
                     <p>Настройки</p>
                     <p>Есть возможность: посмотреть инструкцию, изменить тему, отредактировать аккаунт и пополнить черный список.</p>
-                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
+                    <button class="close-info" onclick="this.parentElement.remove();">Понятно</button>
                 `;
             } else if (iconType === 'burger') {
                 infoDiv.innerHTML = `
                     <p>Меню</p>
                     <p>Позволяет выстраивать маршрут от пункта А до пункта Б.</p>
-                    <button class="close-info" onclick="this.parentElement.remove(); document.getElementById('continueBtn').style.display='block';">Понятно</button>
+                    <button class="close-info" onclick="this.parentElement.remove();">Понятно</button>
                 `;
             }
 
             document.getElementById('infoContainer').appendChild(infoDiv);
-            document.getElementById('continueBtn').style.display = 'block';
         }
 
-        ymaps.ready(function() {
+        ymaps.ready(function () {
             console.log('API Яндекс Карт готов');
         });
 
-        window.onload = function () {
-            setTimeout(startAfterPermissions, 500);
-        };
     </script>
 </body>
+
 </html>

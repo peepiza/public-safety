@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Приложение "Аркадий-паровозов" - Регистрация</title>
+    <title>Приложение "Аркадий-паровозов"</title>
+    <link rel="manifest" href="/manifest.json">
     <style>
         * {
             margin: 0;
@@ -20,6 +21,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
         }
 
         .card {
@@ -28,11 +30,8 @@
             width: 100%;
             padding: 330px 40px;
             border-radius: 60px;
-            border: 3px solid #000;
             text-align: center;
         }
-
-        
 
         .btn {
             display: block;
@@ -49,7 +48,7 @@
             transition: all 0.2s ease;
             background-color: #45679a;
             color: white;
-            border: 2px solid #000;
+            border: #000;
             text-decoration: none;
         }
 
@@ -63,6 +62,41 @@
             transform: translateY(2px);
             box-shadow: 0 0 0 #000;
         }
+
+        .install-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px;
+            pointer-events: none;
+        }
+
+        .install-container .install-btn {
+            pointer-events: auto;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            display: block;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .install-container .install-btn:hover {
+            background: #5a6268;
+        }
+
+        #installBtn {
+            display: none;
+        }
     </style>
 </head>
 
@@ -71,6 +105,36 @@
         <a href="woof/openAc.html" class="btn">Вход в аккаунт</a>
         <a href="woof/register.html" class="btn">Регистрация</a>
     </div>
+
+    <div class="install-container" id="installContainer">
+        <button id="installBtn" class="install-btn">Установить приложение</button>
+    </div>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker зарегистрирован:', reg.scope))
+                    .catch(err => console.log('Ошибка регистрации:', err));
+            });
+        }
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBtn').style.display = 'block';
+        });
+
+        document.getElementById('installBtn').addEventListener('click', () => {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(() => {
+                deferredPrompt = null;
+                document.getElementById('installBtn').style.display = 'none';
+            });
+        });
+    </script>
 </body>
 
 </html>

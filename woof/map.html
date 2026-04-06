@@ -3,51 +3,26 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Аркадий Паровозов - Карта</title>
+    <link rel="apple-touch-icon" href="/icons/launchericon-192x192.png">
+    <link rel="shortcut icon" href="/icons/launchericon-48x48.png">
     
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=985a7e68-8ff9-4339-a7f8-2002f5645e3a&lang=ru_RU" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=31fb7683-a395-48c6-ac18-eea830f723b0&lang=ru_RU" type="text/javascript"></script>
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: white;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 400px;
+            margin: 0;
+            padding: 0;
             width: 100%;
-            text-align: center;
-        }
-
-        .iphone-frame {
-            background-color: #000;
-            border-radius: 40px;
-            padding: 10px;
-            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-            margin: 0 auto;
-            max-width: 380px;
-            border: 3px solid #000;
-        }
-
-        .iphone-screen {
-            background-color: #e5e5e5;
-            border-radius: 30px;
+            height: 100vh;
             overflow: hidden;
-            aspect-ratio: 9/19;
-            position: relative;
         }
 
         #map-container {
@@ -94,10 +69,6 @@
             border: none;
         }
 
-        .icon-btn:active {
-            transform: scale(0.55);
-        }
-
         .bottom-right-icon {
             position: absolute;
             bottom: 20px;
@@ -123,10 +94,6 @@
             border: none;
         }
 
-        .bottom-right-icon:active {
-            transform: scale(0.55);
-        }
-
         .burger-menu {
             width: 44px;
             height: 44px;
@@ -149,10 +116,6 @@
             border: none;
         }
 
-        .burger-menu:active {
-            transform: scale(0.55);
-        }
-
         .burger-line {
             width: 20px;
             height: 3px;
@@ -160,26 +123,7 @@
             border-radius: 3px;
         }
 
-        .geo-message {
-            position: absolute;
-            bottom: 80px;
-            left: 20px;
-            right: 20px;
-            background-color: white;
-            padding: 10px;
-            border-radius: 20px;
-            border: 2px solid #45679a;
-            font-size: 12px;
-            text-align: center;
-            z-index: 200;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            display: none;
-        }
-        
-        .geo-message.show {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
+    
         
         @keyframes slideUp {
             from {
@@ -195,35 +139,22 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="iphone-frame">
-            <div class="iphone-screen" id="mapScreen">
-                <div id="map-container"></div>
-                
-                <div class="top-left-icons">
-                    <div class="burger-menu" onclick="location.href='../woof/humburger.html'">
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                    </div>
-                </div>
-
-                <div class="top-right-icons">
-                    <div class="icon-btn" id="friendIcon" onclick="addFriend()">
-                        😼
-                    </div>
-                </div>
-
-                <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='../woof/settings.html'">
-                    ⚙️
-                </div>
-                
-                <div id="geoMessage" class="geo-message">
-                    Определяем ваше местоположение...
-                </div>
-            </div>
+    <div id="map-container"></div>
+    
+    <div class="top-left-icons">
+        <div class="burger-menu" onclick="location.href='../woof/humburger.html'">
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
         </div>
     </div>
+
+    <div class="top-right-icons">
+        <div class="icon-btn" id="friendIcon" onclick="addFriend()">😼</div>
+    </div>
+
+    <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='../woof/settings.html'">⚙️</div>
+    
 
     <script>
         let map;
@@ -319,7 +250,7 @@
         }
         
         function addFriend() {
-            showGeoMessage(' Функция добавления друга в разработке');
+            showGeoMessage('Функция добавления друга в разработке');
         }
         
         function buildRoute(from, to) {
@@ -336,7 +267,7 @@
                 map.geoObjects.add(route);
                 showGeoMessage('Маршрут построен');
             }, function(error) {
-                showGeoMessage(' Ошибка построения маршрута', true);
+                showGeoMessage('Ошибка построения маршрута', true);
                 console.error(error);
             });
         }

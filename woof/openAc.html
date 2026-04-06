@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приложение "Аркадий-паровозов"</title>
+    <link rel="apple-touch-icon" href="/icons/launchericon-192x192.png">
+    <link rel="shortcut icon" href="/icons/launchericon-48x48.png">
     <style>
         * {
             margin: 0;
@@ -28,7 +30,6 @@
             width: 100%;
             padding: 200px 60px;
             border-radius: 60px;
-            border: 3px solid #000;
             text-align: center;
         }
 
@@ -143,7 +144,7 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             const loginButton = document.getElementById('loginButton');
-            const API_URL = 'http://localhost:3000/api';
+            const API_URL = 'http://172.20.10.2:3000/api';
 
             if (loginButton) {
                 loginButton.addEventListener('click', async function (event) {

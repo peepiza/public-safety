@@ -1,51 +1,25 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Приложение "Аркадий-паровозов"</title>
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=985a7e68-8ff9-4339-a7f8-2002f5645e3a&lang=ru_RU" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Безопасный маршрут - Карта</title>
+    <link rel="apple-touch-icon" href="/icons/launchericon-192x192.png">
+    <link rel="shortcut icon" href="/icons/launchericon-48x48.png">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=31fb7683-a395-48c6-ac18-eea830f723b0&lang=ru_RU" type="text/javascript"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: white;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 400px;
+            margin: 0;
+            padding: 0;
             width: 100%;
-            position: relative;
-        }
-
-        .iphone-frame {
-            background-color: #111;
-            border-radius: 40px;
-            padding: 10px;
-            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-            margin: 0 auto;
-            max-width: 380px;
-            border: 3px solid #000;
-        }
-
-        .iphone-screen {
-            background-color: #fff;
-            border-radius: 30px;
+            height: 100vh;
             overflow: hidden;
-            aspect-ratio: 9/19;
-            position: relative;
         }
 
         #map-container {
@@ -162,7 +136,6 @@
             background-color: rgba(0, 0, 0, 0.5);
             display: none;
             z-index: 5;
-            border-radius: 30px;
         }
 
         .overlay.active {
@@ -211,10 +184,6 @@
             font-size: 16px;
         }
 
-        .route-label .marker {
-            font-size: 20px;
-        }
-
         .route-input {
             width: 100%;
             padding: 15px 20px;
@@ -223,7 +192,6 @@
             font-size: 16px;
             outline: none;
             background-color: white;
-            transition: border-color 0.2s;
         }
 
         .route-input:focus {
@@ -272,11 +240,6 @@
             box-shadow: 0 2px 0 #000000;
         }
 
-        .route-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 0 0 #000;
-        }
-
         .close-icon {
             position: absolute;
             top: 15px;
@@ -284,7 +247,6 @@
             font-size: 28px;
             cursor: pointer;
             color: #666;
-            transition: color 0.2s;
         }
 
         .close-icon:hover {
@@ -304,18 +266,6 @@
             text-align: center;
             z-index: 20;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            animation: infoAppear 0.3s ease;
-        }
-
-        @keyframes infoAppear {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -40%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
         }
 
         .info-card p {
@@ -333,17 +283,6 @@
             font-weight: 600;
             font-size: 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .close-info:hover {
-            background-color: #3f5981;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 0 #000000;
-        }
-
-        .close-info:active {
-            transform: scale(0.95);
         }
 
         #infoContainer {
@@ -363,55 +302,45 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="iphone-frame">
-            <div class="iphone-screen">
-                <div id="map-container"></div>
-                
-                <div class="overlay" id="overlay" onclick="closeRouteWindow()"></div>
+    <div id="map-container"></div>
+    
+    <div class="overlay" id="overlay" onclick="closeRouteWindow()"></div>
 
-                <div class="top-left-icons">
-                    <div class="burger-menu" id="burgerMenu" onclick="toggleRouteWindow()">
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                    </div>
-                </div>
-
-                <div class="top-right-icons">
-                    <div class="icon-btn" id="friendIcon" onclick="showFriendMessage()">😼</div>
-                </div>
-
-                <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='settings.html'">⚙️</div>
-
-                <div class="route-window" id="routeWindow">
-                    <div class="close-icon" onclick="closeRouteWindow()">×</div>
-                    <div class="route-title">Построить маршрут</div>
-                    
-                    <div class="route-input-group">
-                        <div class="route-label">
-                            <span class="marker"></span> Точка А (начало)
-                        </div>
-                        <input type="text" class="route-input" id="pointA" placeholder="например: Тверская ул., 7">
-                    </div>
-
-                    <div class="route-input-group">
-                        <div class="route-label">
-                            <span class="marker"></span> Точка Б (конец)
-                        </div>
-                        <input type="text" class="route-input" id="pointB" placeholder="например: Красная площадь">
-                    </div>
-
-                    <div class="route-buttons">
-                        <button class="route-btn route-btn-build" onclick="buildRoute()">Построить</button>
-                        <button class="route-btn route-btn-cancel" onclick="closeRouteWindow()">Отмена</button>
-                    </div>
-                </div>
-
-                <div id="infoContainer"></div>
-            </div>
+    <div class="top-left-icons">
+        <div class="burger-menu" id="burgerMenu" onclick="toggleRouteWindow()">
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
         </div>
     </div>
+
+    <div class="top-right-icons">
+        <div class="icon-btn" id="friendIcon" onclick="showFriendMessage()">😼</div>
+    </div>
+
+    <div class="bottom-right-icon" id="settingsIcon" onclick="location.href='settings.html'">⚙️</div>
+
+    <div class="route-window" id="routeWindow">
+        <div class="close-icon" onclick="closeRouteWindow()">×</div>
+        <div class="route-title">Построить маршрут</div>
+        
+        <div class="route-input-group">
+            <div class="route-label">Точка А (начало)</div>
+            <input type="text" class="route-input" id="pointA" placeholder="например: Тверская ул., 7">
+        </div>
+
+        <div class="route-input-group">
+            <div class="route-label">Точка Б (конец)</div>
+            <input type="text" class="route-input" id="pointB" placeholder="например: Красная площадь">
+        </div>
+
+        <div class="route-buttons">
+            <button class="route-btn route-btn-build" onclick="buildRoute()">Построить</button>
+            <button class="route-btn route-btn-cancel" onclick="closeRouteWindow()">Отмена</button>
+        </div>
+    </div>
+
+    <div id="infoContainer"></div>
 
     <script>
         let map;
@@ -474,7 +403,6 @@
             window.classList.remove('active');
             burger.classList.remove('active');
             overlay.classList.remove('active');
-            
             clearInputs();
         }
 
@@ -488,11 +416,11 @@
             const pointB = document.getElementById('pointB').value.trim();
             
             if (!pointA || !pointB) {
-                showMessage('Заполните оба поля!');
+                showMessage('Заполните оба поля');
                 return;
             }
             
-            showMessage(` Маршрут строится: ${pointA} → ${pointB}`);
+            showMessage(`Маршрут строится: ${pointA} → ${pointB}`);
                         
             setTimeout(() => {
                 closeRouteWindow();
@@ -528,19 +456,6 @@
                 closeRouteWindow();
             }
         });
-
-        document.getElementById('pointA').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('pointB').focus();
-            }
-        });
-
-        document.getElementById('pointB').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                buildRoute();
-            }
-        });
     </script>
 </body>
-
 </html>
